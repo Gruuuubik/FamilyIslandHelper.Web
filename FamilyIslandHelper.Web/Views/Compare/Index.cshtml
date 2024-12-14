@@ -1,0 +1,105 @@
+﻿@using FamilyIslandHelper.Api;
+@using System.Collections;
+@using FamilyIslandHelper.Api.Models.Abstract;
+@model CompareViewModel
+
+@{
+	ViewData["Title"] = "Compare Page";
+}
+
+<body>
+	<form id="mainFormCompare" method="post" action="~/Compare/Index">
+		<div id="CommonSettings" class="commonSettings">
+			<textarea id="ItemCompareInfo" name="ItemCompareInfo">@Model.ItemCompareInfo</textarea>
+
+			<div class="checkbox-wrapper-14">
+				@Html.CheckBoxFor(m => m.ShowListOfComponentsForAll, new { @class = "switch" })
+				@Html.LabelFor(m => m.ShowListOfComponentsForAll)
+			</div>
+		</div>
+
+		<div class="float-container">
+			<div class="float-child">
+				<div id="Component1" class="component">
+					<div id="BuildingsImages1">
+						@foreach (var buildingName1 in @Model.BuildingsNames)
+						{
+							var buildingImageName1 = buildingName1 + ".png";
+							var classes = "buildingImageName";
+							if (buildingName1 == @Model.BuildingName1)
+							{
+								classes += " selectedImage";
+							}
+							<img class="@classes" id="@buildingName1" width="60" onclick="setBuildingName(event, 'BuildingName1', 'mainFormCompare');" src="/images/Buildings/@buildingImageName1" alt="@buildingName1">
+						}
+						<input type="hidden" name="BuildingName1" id="BuildingName1" value="@Model.BuildingName1" />
+					</div>
+					<div>
+						<label>Produce ratio: </label>@Html.DisplayFor(m => m.Building1ProduceRatio)
+					</div>
+					<div id="ItemsImages1">
+						@foreach (var itemName1 in @Model.Items1)
+						{
+							var itemNameImageName1 = itemName1 + ".png";
+							var classes = "itemNameImage";
+							if (itemName1 == @Model.ItemName1)
+							{
+								classes += " selectedImage";
+							}
+							<img class="@classes" id="@itemName1" width="60" onclick="setItemName(event, 'ItemName1', 'mainFormCompare');" src="/images/Pictures/@Model.BuildingName1/@itemNameImageName1" alt="@itemName1">
+						}
+						<input type="hidden" name="ItemName1" id="ItemName1" value="@Model.ItemName1" />
+					</div>
+					<div>
+						@Html.LabelFor(m => m.ItemCount1, "Item count:")
+						<input type="number" class="itemCount" id="ItemCount1" name="ItemCount1" min="1" max="20" value="@Model.ItemCount1" />
+					</div>
+					<div>
+						<textarea id="ItemInfo1" name="ItemInfo1" class="personal">@Model.ItemInfo1</textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="float-child">
+				<div id="Component2" class="component">
+					<div id="BuildingsImages2">
+						@foreach (var buildingName2 in @Model.BuildingsNames)
+						{
+							var buildingImageName2 = buildingName2 + ".png";
+							var classes = "buildingImageName";
+							if (buildingName2 == @Model.BuildingName2)
+							{
+								classes += " selectedImage";
+							}
+							<img class="@classes" id="@buildingName2" width="60" onclick="setBuildingName(event, 'BuildingName2', 'mainFormCompare');" src="/images/Buildings/@buildingImageName2" alt="@buildingName2">
+						}
+						<input type="hidden" name="BuildingName2" id="BuildingName2" value="@Model.BuildingName2" />
+					</div>
+					<div>
+						<label>Produce ratio: </label>@Html.DisplayFor(m => m.Building2ProduceRatio)
+					</div>
+					<div id="ItemsImages2">
+						@foreach (var itemName2 in @Model.Items2)
+						{
+							var itemNameImageName2 = itemName2 + ".png";
+							var classes = "itemNameImage";
+							if (itemName2 == @Model.ItemName2)
+							{
+								classes += " selectedImage";
+							}
+							<img class="@classes" id="@itemName2" width="60" onclick="setItemName(event, 'ItemName2', 'mainFormCompare');" src="/images/Pictures/@Model.BuildingName2/@itemNameImageName2" alt="@itemName2">
+						}
+						<input type="hidden" name="ItemName2" id="ItemName2" value="@Model.ItemName2" />
+					</div>
+					<div>
+						@Html.LabelFor(m => m.ItemCount2, "Item count:")
+						<input type="number" class="itemCount" id="ItemCount2" name="ItemCount2" min="1" max="20" value="@Model.ItemCount2" />
+					</div>
+					<div>
+						<textarea id="ItemInfo2" name="ItemInfo2" class="personal">@Model.ItemInfo2</textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>

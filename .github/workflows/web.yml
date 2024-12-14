@@ -1,0 +1,36 @@
+name: Web
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - web
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.X' ]
+        configuration: [Release]
+
+    name: Windows Build
+    runs-on: windows-latest
+
+    steps:
+    - name: ⤵️ Checkout Source
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🛠️ Setup .NET SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: 🛠️ Install dependencies
+      run: dotnet restore
+
+    - name: 🔨 Build
+      run: dotnet build --configuration ${{ matrix.configuration }} --no-restore
