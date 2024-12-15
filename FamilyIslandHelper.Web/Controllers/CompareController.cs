@@ -13,12 +13,17 @@ namespace FamilyIslandHelper.Web.Controllers
 	{
 		private CompareViewModel compareViewModel;
 
-		private ApiVersion apiVersion = ApiVersion.v1;
-		private readonly BuildingHelper buildingHelper;
-		private readonly ItemHelper itemHelper;
-		private readonly List<string> buildingsNames;
+		private ApiVersion apiVersion = ApiVersion.v2;
+		private BuildingHelper buildingHelper;
+		private ItemHelper itemHelper;
+		private List<string> buildingsNames;
 
 		public CompareController()
+		{
+			InitHelpers();
+		}
+
+		private void InitHelpers()
 		{
 			buildingHelper = new BuildingHelper(apiVersion);
 			itemHelper = new ItemHelper(apiVersion);
@@ -52,7 +57,8 @@ namespace FamilyIslandHelper.Web.Controllers
 				Items2 = items2,
 				ItemName2 = itemName2,
 				ItemCount2 = 1,
-				ItemInfo2 = GetInfoAboutItem(itemName2, 1, false)
+				ItemInfo2 = GetInfoAboutItem(itemName2, 1, false),
+				ApiVersion = apiVersion
 			};
 
 			return View(compareViewModel);
@@ -66,7 +72,23 @@ namespace FamilyIslandHelper.Web.Controllers
 				throw new ArgumentNullException(nameof(compareViewModel));
 			}
 
+			if (compareViewModel.ApiVersion != apiVersion)
+			{
+				apiVersion = compareViewModel.ApiVersion;
+				InitHelpers();
+			}
+
 			compareViewModel.BuildingsNames = buildingsNames;
+
+			if (!buildingsNames.Contains(compareViewModel.BuildingName1))
+			{
+				compareViewModel.BuildingName1 = buildingsNames.First();
+			}
+
+			if (!buildingsNames.Contains(compareViewModel.BuildingName2))
+			{
+				compareViewModel.BuildingName2 = buildingsNames.First();
+			}
 
 			var items1 = buildingHelper.GetItemsOfBuilding(compareViewModel.BuildingName1);
 			var items2 = buildingHelper.GetItemsOfBuilding(compareViewModel.BuildingName2);

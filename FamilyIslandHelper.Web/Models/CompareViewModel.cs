@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using FamilyIslandHelper.Api;
+using System.Collections.Generic;
 
 namespace FamilyIslandHelper.Web.Models
 {
 	public class CompareViewModel
 	{
+		public ApiVersion ApiVersion { get; set; }
+		public string ApiPrefix => ApiVersion == ApiVersion.v1 ? string.Empty : "_v2";
+
 		public List<string> BuildingsNames { get; set; }
 		public double Building1ProduceRatio { get; set; }
 		public double Building2ProduceRatio { get; set; }

@@ -9,6 +9,28 @@
 
 <body>
 	<form id="mainFormCompare" method="post" action="~/Compare/Index">
+		<div id="apiVersionSelector">
+			<label>API version:</label>
+			<label>v1</label>
+			@if (Model.ApiVersion == ApiVersion.v1)
+			{
+				<input id="ApiVersion2" name="ApiVersion" type="radio" value="v1" checked="checked">
+			}
+			else
+			{
+				<input id="ApiVersion2" name="ApiVersion" type="radio" value="v1">
+			}
+			<label>v2</label>
+			@if (Model.ApiVersion == ApiVersion.v2)
+			{
+				<input id="ApiVersion2" name="ApiVersion" type="radio" value="v2" checked="checked">
+			}
+			else
+			{
+				<input id="ApiVersion2" name="ApiVersion" type="radio" value="v2">
+			}
+		</div>
+
 		<div id="CommonSettings" class="commonSettings">
 			<textarea id="ItemCompareInfo" name="ItemCompareInfo">@Model.ItemCompareInfo</textarea>
 
@@ -30,7 +52,8 @@
 							{
 								classes += " selectedImage";
 							}
-							<img class="@classes" id="@buildingName1" width="60" onclick="setBuildingName(event, 'BuildingName1', 'mainFormCompare');" src="/images/Buildings/@buildingImageName1" alt="@buildingName1">
+							var buildingsFolderName = "Buildings" + @Model.ApiPrefix;
+							<img class="@classes" id="@buildingName1" width="60" onclick="setBuildingName(event, 'BuildingName1', 'mainFormCompare');" src="/images/@buildingsFolderName/@buildingImageName1" alt="@buildingName1">
 						}
 						<input type="hidden" name="BuildingName1" id="BuildingName1" value="@Model.BuildingName1" />
 					</div>
@@ -46,7 +69,8 @@
 							{
 								classes += " selectedImage";
 							}
-							<img class="@classes" id="@itemName1" width="60" onclick="setItemName(event, 'ItemName1', 'mainFormCompare');" src="/images/Pictures/@Model.BuildingName1/@itemNameImageName1" alt="@itemName1">
+							var itemsFolderName = "Items" + @Model.ApiPrefix;
+							<img class="@classes" id="@itemName1" width="60" onclick="setItemName(event, 'ItemName1', 'mainFormCompare');" src="/images/@itemsFolderName/@Model.BuildingName1/@itemNameImageName1" alt="@itemName1">
 						}
 						<input type="hidden" name="ItemName1" id="ItemName1" value="@Model.ItemName1" />
 					</div>
@@ -71,7 +95,8 @@
 							{
 								classes += " selectedImage";
 							}
-							<img class="@classes" id="@buildingName2" width="60" onclick="setBuildingName(event, 'BuildingName2', 'mainFormCompare');" src="/images/Buildings/@buildingImageName2" alt="@buildingName2">
+							var buildingsFolderName = "Buildings" + @Model.ApiPrefix;
+							<img class="@classes" id="@buildingName2" width="60" onclick="setBuildingName(event, 'BuildingName2', 'mainFormCompare');" src="/images/@buildingsFolderName/@buildingImageName2" alt="@buildingName2">
 						}
 						<input type="hidden" name="BuildingName2" id="BuildingName2" value="@Model.BuildingName2" />
 					</div>
@@ -87,7 +112,8 @@
 							{
 								classes += " selectedImage";
 							}
-							<img class="@classes" id="@itemName2" width="60" onclick="setItemName(event, 'ItemName2', 'mainFormCompare');" src="/images/Pictures/@Model.BuildingName2/@itemNameImageName2" alt="@itemName2">
+							var itemsFolderName = "Items" + @Model.ApiPrefix;
+							<img class="@classes" id="@itemName2" width="60" onclick="setItemName(event, 'ItemName2', 'mainFormCompare');" src="/images/@itemsFolderName/@Model.BuildingName2/@itemNameImageName2" alt="@itemName2">
 						}
 						<input type="hidden" name="ItemName2" id="ItemName2" value="@Model.ItemName2" />
 					</div>

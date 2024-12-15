@@ -13,12 +13,17 @@ namespace FamilyIslandHelper.Web.Controllers
 	{
 		private ViewModel viewModel;
 
-		private ApiVersion apiVersion = ApiVersion.v1;
-		private readonly BuildingHelper buildingHelper;
-		private readonly ItemHelper itemHelper;
-		private readonly List<string> buildingsNames;
+		private ApiVersion apiVersion = ApiVersion.v2;
+		private BuildingHelper buildingHelper;
+		private ItemHelper itemHelper;
+		private List<string> buildingsNames;
 
 		public HomeController()
+		{
+			InitHelpers();
+		}
+
+		private void InitHelpers()
 		{
 			buildingHelper = new BuildingHelper(apiVersion);
 			itemHelper = new ItemHelper(apiVersion);
@@ -29,9 +34,7 @@ namespace FamilyIslandHelper.Web.Controllers
 		public IActionResult Index()
 		{
 			var buildingName1 = buildingsNames.First();
-
 			var items1 = buildingHelper.GetItemsOfBuilding(buildingName1);
-
 			var itemName1 = items1.First();
 
 			viewModel = new ViewModel
@@ -43,7 +46,8 @@ namespace FamilyIslandHelper.Web.Controllers
 				Items = items1,
 				ItemName = itemName1,
 				ItemCount = 1,
-				ItemInfo = GetInfoAboutItem(itemName1, 1, false)
+				ItemInfo = GetInfoAboutItem(itemName1, 1, false),
+				ApiVersion = apiVersion
 			};
 
 			return View(viewModel);
@@ -57,9 +61,20 @@ namespace FamilyIslandHelper.Web.Controllers
 				throw new ArgumentNullException(nameof(viewModel));
 			}
 
-			var items = buildingHelper.GetItemsOfBuilding(viewModel.BuildingName);
+			if (viewModel.ApiVersion != apiVersion)
+			{
+				apiVersion = viewModel.ApiVersion;
+				InitHelpers();
+			}
 
 			viewModel.BuildingsNames = buildingsNames;
+
+			if (!buildingsNames.Contains(viewModel.BuildingName))
+			{
+				viewModel.BuildingName = buildingsNames.First();
+			}
+
+			var items = buildingHelper.GetItemsOfBuilding(viewModel.BuildingName);
 
 			if (!items.Contains(viewModel.ItemName))
 			{

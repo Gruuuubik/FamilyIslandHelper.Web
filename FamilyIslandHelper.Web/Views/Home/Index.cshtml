@@ -9,6 +9,28 @@
 
 <body>
 	<form id="mainForm" method="post" action="~/Home/Index">
+		<div id="apiVersionSelector">
+			<label>API version:</label>
+			<label>v1</label>
+			@if (Model.ApiVersion == ApiVersion.v1)
+			{
+				<input id="ApiVersion1" name="ApiVersion" type="radio" value="v1" checked="checked">
+			}
+			else
+			{
+				<input id="ApiVersion1" name="ApiVersion" type="radio" value="v1">
+			}
+			<label>v2</label>
+			@if (Model.ApiVersion == ApiVersion.v2)
+			{
+				<input id="ApiVersion1" name="ApiVersion" type="radio" value="v2" checked="checked">
+			}
+			else
+			{
+				<input id="ApiVersion1" name="ApiVersion" type="radio" value="v2">
+			}
+		</div>
+
 		<div id="CommonSettings" class="commonSettings">
 			<div class="checkbox-wrapper-14">
 				@Html.CheckBoxFor(m => m.ShowListOfComponents, new { @class = "switch" })
@@ -26,7 +48,8 @@
 					{
 						classes += " selectedImage";
 					}
-					<img class="@classes" id="@buildingName" width="60" onclick="setBuildingName(event, 'BuildingName', 'mainForm');" src="/images/Buildings/@buildingImageName" alt="@buildingName">
+					var buildingsFolderName = "Buildings" + @Model.ApiPrefix;
+					<img class="@classes" id="@buildingName" width="60" onclick="setBuildingName(event, 'BuildingName', 'mainForm');" src="/images/@buildingsFolderName/@buildingImageName" alt="@buildingName">
 				}
 				<input type="hidden" name="BuildingName" id="BuildingName" value="@Model.BuildingName" />
 			</div>
@@ -42,7 +65,8 @@
 					{
 						classes += " selectedImage";
 					}
-					<img class="@classes" id="@itemName" width="60" onclick="setItemName(event, 'ItemName', 'mainForm');" src="/images/Pictures/@Model.BuildingName/@itemNameImageName" alt="@itemName">
+					var itemsFolderName = "Items" + @Model.ApiPrefix;
+					<img class="@classes" id="@itemName" width="60" onclick="setItemName(event, 'ItemName', 'mainForm');" src="/images/@itemsFolderName/@Model.BuildingName/@itemNameImageName" alt="@itemName">
 				}
 				<input type="hidden" name="ItemName" id="ItemName" value="@Model.ItemName" />
 			</div>
