@@ -42,14 +42,12 @@
 			<div id="BuildingsImages">
 				@foreach (var buildingName in @Model.BuildingsNames)
 				{
-					var buildingImageName = buildingName + ".png";
 					var classes = "buildingImageName";
 					if (buildingName == @Model.BuildingName)
 					{
 						classes += " selectedImage";
 					}
-					var buildingsFolderName = "Buildings" + @Model.ApiPrefix;
-					<img class="@classes" id="@buildingName" width="60" onclick="setBuildingName(event, 'BuildingName', 'mainForm');" src="/images/@buildingsFolderName/@buildingImageName" alt="@buildingName" title="@buildingName">
+					<img class="@classes" id="@buildingName" width="60" onclick="setBuildingName(event, 'BuildingName', 'mainForm');" src="/resources/@Model.ApiVersion/@buildingName" alt="@buildingName" title="@buildingName">
 				}
 				<input type="hidden" name="BuildingName" id="BuildingName" value="@Model.BuildingName" />
 			</div>
@@ -59,14 +57,12 @@
 			<div id="ItemsImages">
 				@foreach (var itemName in @Model.Items)
 				{
-					var itemNameImageName = itemName + ".png";
 					var classes = "itemNameImage";
 					if (itemName == @Model.ItemName)
 					{
 						classes += " selectedImage";
 					}
-					var itemsFolderName = "Items" + @Model.ApiPrefix;
-					<img class="@classes" id="@itemName" width="60" onclick="setItemName(event, 'ItemName', 'mainForm');" src="/images/@itemsFolderName/@Model.BuildingName/@itemNameImageName" alt="@itemName" title="@itemName">
+					<img class="@classes" id="@itemName" width="60" onclick="setItemName(event, 'ItemName', 'mainForm');" src="/resources/@Model.ApiVersion/@Model.BuildingName/@itemName" alt="@itemName" title="@itemName">
 				}
 				<input type="hidden" name="ItemName" id="ItemName" value="@Model.ItemName" />
 			</div>

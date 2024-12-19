@@ -6,7 +6,6 @@ namespace FamilyIslandHelper.Web.Models
 	public class ViewModel
 	{
 		public ApiVersion ApiVersion { get; set; }
-		public string ApiPrefix => ApiVersion == ApiVersion.v1 ? string.Empty : "_v2";
 
 		public List<string> BuildingsNames { get; set; }
 		public double BuildingProduceRatio { get; set; }
