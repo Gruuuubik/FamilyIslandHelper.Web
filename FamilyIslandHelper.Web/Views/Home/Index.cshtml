@@ -49,7 +49,7 @@
 						classes += " selectedImage";
 					}
 					var buildingsFolderName = "Buildings" + @Model.ApiPrefix;
-					<img class="@classes" id="@buildingName" width="60" onclick="setBuildingName(event, 'BuildingName', 'mainForm');" src="/images/@buildingsFolderName/@buildingImageName" alt="@buildingName">
+					<img class="@classes" id="@buildingName" width="60" onclick="setBuildingName(event, 'BuildingName', 'mainForm');" src="/images/@buildingsFolderName/@buildingImageName" alt="@buildingName" title="@buildingName">
 				}
 				<input type="hidden" name="BuildingName" id="BuildingName" value="@Model.BuildingName" />
 			</div>
@@ -66,7 +66,7 @@
 						classes += " selectedImage";
 					}
 					var itemsFolderName = "Items" + @Model.ApiPrefix;
-					<img class="@classes" id="@itemName" width="60" onclick="setItemName(event, 'ItemName', 'mainForm');" src="/images/@itemsFolderName/@Model.BuildingName/@itemNameImageName" alt="@itemName">
+					<img class="@classes" id="@itemName" width="60" onclick="setItemName(event, 'ItemName', 'mainForm');" src="/images/@itemsFolderName/@Model.BuildingName/@itemNameImageName" alt="@itemName" title="@itemName">
 				}
 				<input type="hidden" name="ItemName" id="ItemName" value="@Model.ItemName" />
 			</div>
