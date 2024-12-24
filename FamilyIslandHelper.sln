@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyIslandHelper.Web.Tests", "FamilyIslandHelper.Web.Tests\FamilyIslandHelper.Web.Tests.csproj", "{5833C7E9-C44E-41D9-9650-E38EC7E74089}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,14 @@ Global
 		{3857B150-5BCF-498D-B531-9EC5AE17F380}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3857B150-5BCF-498D-B531-9EC5AE17F380}.Release|x64.ActiveCfg = Release|x64
 		{3857B150-5BCF-498D-B531-9EC5AE17F380}.Release|x64.Build.0 = Release|x64
+		{5833C7E9-C44E-41D9-9650-E38EC7E74089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5833C7E9-C44E-41D9-9650-E38EC7E74089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5833C7E9-C44E-41D9-9650-E38EC7E74089}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5833C7E9-C44E-41D9-9650-E38EC7E74089}.Debug|x64.Build.0 = Debug|Any CPU
+		{5833C7E9-C44E-41D9-9650-E38EC7E74089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5833C7E9-C44E-41D9-9650-E38EC7E74089}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5833C7E9-C44E-41D9-9650-E38EC7E74089}.Release|x64.ActiveCfg = Release|Any CPU
+		{5833C7E9-C44E-41D9-9650-E38EC7E74089}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -34,3 +34,6 @@ jobs:
 
     - name: 🔨 Build
       run: dotnet build --configuration ${{ matrix.configuration }} --no-restore
+
+    - name: 🔨 Execute Selenium tests
+      run: dotnet test --configuration ${{ matrix.configuration }} --no-build --no-restore --verbosity normal --logger "GitHubActions;summary.includePassedTests=true"
