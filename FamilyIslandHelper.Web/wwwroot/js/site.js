@@ -61,6 +61,34 @@ if (ShowListOfComponentsForAll != null) {
 	});
 }
 
+var apiVersionHome1 = document.getElementById("ApiVersionHome1");
+var apiVersionHome2 = document.getElementById("ApiVersionHome2");
+
+if (apiVersionHome1 != null) {
+	apiVersionHome1.addEventListener("click", function () {
+		document.getElementById('mainForm').submit();
+	});
+}
+if (apiVersionHome2 != null) {
+	apiVersionHome2.addEventListener("click", function () {
+		document.getElementById('mainForm').submit();
+	});
+}
+
+var apiVersionCompare1 = document.getElementById("ApiVersionCompare1");
+var apiVersionCompare2 = document.getElementById("ApiVersionCompare2");
+
+if (apiVersionCompare1 != null) {
+	apiVersionCompare1.addEventListener("click", function () {
+		document.getElementById('mainFormCompare').submit();
+	});
+}
+if (apiVersionCompare2 != null) {
+	apiVersionCompare2.addEventListener("click", function () {
+		document.getElementById('mainFormCompare').submit();
+	});
+}
+
 function setItemName(event, itemNameId, formId) {
 	document.getElementById(itemNameId).value = event.currentTarget.id;
 
