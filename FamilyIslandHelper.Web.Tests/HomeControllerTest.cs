@@ -13,7 +13,7 @@ namespace FamilyIslandHelper.Web.Tests
 		[SetUp]
 		public void Setup()
 		{
-			driver.Navigate().GoToUrl("https://gruuuubik.bsite.net/");
+			driver.Navigate().GoToUrl(mainUrl);
 		}
 
 		[Test]

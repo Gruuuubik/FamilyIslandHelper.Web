@@ -8,6 +8,7 @@ namespace FamilyIslandHelper.Web.Tests
 	public class BaseTest
 	{
 		protected WebDriver driver;
+		protected string mainUrl = "https://gruuuubik.bsite.net";
 		private const string ScreensDirectory = "Screens";
 
 		[OneTimeSetUp]
