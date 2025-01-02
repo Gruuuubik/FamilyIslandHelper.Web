@@ -1,0 +1,9 @@
+{
+  "apiVersionId": "ApiVersionCompare1",
+  "buildingId": "JewelryWorkshop",
+  "item1Id": "PearlEarrings",
+  "item1Info": "01:15:00, 180",
+  "item2Id": "SapphireBracelet",
+  "item2Info": "01:15:00, 485",
+  "item1InfoFor2": "02:30:00, 970"
+}

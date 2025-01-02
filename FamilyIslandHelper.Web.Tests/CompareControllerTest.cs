@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using System.Collections.Generic;
 
 namespace FamilyIslandHelper.Web.Tests
 {
@@ -48,56 +49,57 @@ namespace FamilyIslandHelper.Web.Tests
 					5.4.1. Check that item info is updated.
 			6. Check item compare info.
 		")]
-		[TestCase("ApiVersionCompare1", "JewelryWorkshop", "PearlEarrings", "01:15:00, 180", "SapphireBracelet", "01:15:00, 485", "02:30:00, 970", 1)]
-		[TestCase("ApiVersionCompare2", "Forge", "Needle", "00:08:00, 216", "Glass", "00:35:00, 1928", "01:10:00, 3856", 2)]
-		public void ComparePageTest(string apiVersionId, string buildingId, string item1Id, string item1Info, string item2Id, string item2Info, string item1InfoFor2, int testCaseNumber)
+		[TestCase("ComparePage_TestCase1")]
+		[TestCase("ComparePage_TestCase2")]
+		public void ComparePageTest(string testDataJsonFileName)
 		{
 			try
 			{
-				driver.FindElement(By.Id(apiVersionId)).Click();
+				var testDataDictionary = GetTestData(testDataJsonFileName);
 
-				CheckComponent(buildingId, item1Id, item1Info, item2Id, item2Info, item1InfoFor2, "Component1", "ItemInfo1", "ItemCount1");
+				driver.FindElement(By.Id(testDataDictionary["apiVersionId"])).Click();
+
+				CheckComponent(testDataDictionary, "Component1", "ItemInfo1", "ItemCount1");
 
 				driver.FindElement(By.Id("ShowListOfComponentsForAll")).Click();
 
-				CheckComponent(buildingId, item1Id, item1Info, item2Id, item2Info, item1InfoFor2, "Component2", "ItemInfo2", "ItemCount2");
+				CheckComponent(testDataDictionary, "Component2", "ItemInfo2", "ItemCount2");
 
 				Assert.That(driver.FindElement(By.Id("ItemCompareInfo")).Text, Is.Not.Empty);
 			}
 			catch
 			{
-				MakeScreen($"TestCase{testCaseNumber}_Exception");
-
+				MakeScreen($"{testDataJsonFileName}_Exception");
 				throw;
 			}
 		}
 
-		private void CheckComponent(string buildingId, string item1Id, string item1Info, string item2Id, string item2Info, string item1InfoFor2, string componentId, string itemInfoId, string itemCountId)
+		private void CheckComponent(Dictionary<string, string> testDataDictionary, string componentId, string itemInfoId, string itemCountId)
 		{
 			var component = driver.FindElement(By.Id(componentId));
 
-			var building = component.FindElement(By.Id(buildingId));
+			var building = component.FindElement(By.Id(testDataDictionary["buildingId"]));
 			building.Click();
 
 			component = driver.FindElement(By.Id(componentId));
-			building = component.FindElement(By.Id(buildingId));
+			building = component.FindElement(By.Id(testDataDictionary["buildingId"]));
 			Assert.That(building.GetAttribute("class"), Is.EqualTo(ClassesForSelectedBuilding));
 
-			var item1 = component.FindElement(By.Id(item1Id));
+			var item1 = component.FindElement(By.Id(testDataDictionary["item1Id"]));
 			Assert.That(item1.GetAttribute("class"), Is.EqualTo("itemNameImage selectedImage"));
 
 			var itemInfo = component.FindElement(By.Id(itemInfoId));
-			Assert.That(itemInfo.Text, Does.Contain(item1Info));
+			Assert.That(itemInfo.Text, Does.Contain(testDataDictionary["item1Info"]));
 
-			var item2 = component.FindElement(By.Id(item2Id));
+			var item2 = component.FindElement(By.Id(testDataDictionary["item2Id"]));
 			Assert.That(item2.GetAttribute("class"), Is.EqualTo("itemNameImage"));
 			item2.Click();
 			component = driver.FindElement(By.Id(componentId));
-			item2 = component.FindElement(By.Id(item2Id));
+			item2 = component.FindElement(By.Id(testDataDictionary["item2Id"]));
 			Assert.That(item2.GetAttribute("class"), Is.EqualTo("itemNameImage selectedImage"));
 
 			itemInfo = component.FindElement(By.Id(itemInfoId));
-			Assert.That(itemInfo.Text, Does.Contain(item2Info));
+			Assert.That(itemInfo.Text, Does.Contain(testDataDictionary["item2Info"]));
 
 			driver.FindElement(By.Id("ShowListOfComponentsForAll")).Click();
 
@@ -110,7 +112,7 @@ namespace FamilyIslandHelper.Web.Tests
 
 			component = driver.FindElement(By.Id(componentId));
 			itemInfo = component.FindElement(By.Id(itemInfoId));
-			Assert.That(itemInfo.Text, Does.Contain(item1InfoFor2));
+			Assert.That(itemInfo.Text, Does.Contain(testDataDictionary["item1InfoFor2"]));
 		}
 	}
 }

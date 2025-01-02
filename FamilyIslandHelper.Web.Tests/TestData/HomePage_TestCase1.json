@@ -1,0 +1,14 @@
+{
+  "apiVersionId": "ApiVersionHome1",
+  "buildingsCount": "13",
+  "buildingId": "JewelryWorkshop",
+  "item1Id": "PearlEarrings",
+  "item1Info": "01:15:00, 180",
+  "totalTimeInfo1": "03:15:00",
+  "item2Id": "SapphireBracelet",
+  "item2Info": "01:15:00, 485",
+  "expectedComponentsTreeImagesCount": "25",
+  "componentsTreeItemComponentImageId": "Sackcloth",
+  "componentsTreeItemImageId": "Cloth",
+  "item1InfoFor2": "02:30:00, 970"
+}
