@@ -37,3 +37,11 @@ jobs:
 
     - name: 🔨 Execute Selenium tests
       run: dotnet test --configuration ${{ matrix.configuration }} --no-build --no-restore --verbosity normal --logger "GitHubActions;summary.includePassedTests=true"
+
+    - name: 💾 Archive screens
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: Screens from Selenium tests
+        path: '${{ github.workspace }}/FamilyIslandHelper.Web.Tests/bin/${{ matrix.configuration }}/net6.0/Screens'
+        if-no-files-found: 'ignore'
