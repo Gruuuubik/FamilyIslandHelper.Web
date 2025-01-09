@@ -42,6 +42,11 @@ namespace FamilyIslandHelper.Web.Controllers
 			var itemName1 = items1.First();
 			var itemName2 = items2.First();
 
+			var itemCount = 1;
+			var showListOfComponents = false;
+			var item1 = itemHelper.FindItemByName(itemName1);
+			var item2 = itemHelper.FindItemByName(itemName2);
+
 			compareViewModel = new CompareViewModel
 			{
 				BuildingsNames = buildingsNames,
@@ -49,15 +54,19 @@ namespace FamilyIslandHelper.Web.Controllers
 				Building2ProduceRatio = buildingHelper.CreateBuilding(buildingName2).ProduceRatio,
 				BuildingName1 = buildingName1,
 				BuildingName2 = buildingName2,
-				ShowListOfComponentsForAll = false,
+				ShowListOfComponentsForAll = showListOfComponents,
 				Items1 = items1,
 				ItemName1 = itemName1,
-				ItemCount1 = 1,
-				ItemInfo1 = GetInfoAboutItem(itemName1, 1, false),
+				ItemCount1 = itemCount,
+				TotalTimeInfo1 = ItemInfoService.GetTotalTime(item1, itemCount),
+				ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, itemCount, showListOfComponents),
+				ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, showListOfComponents, "componentsTree1"),
 				Items2 = items2,
 				ItemName2 = itemName2,
-				ItemCount2 = 1,
-				ItemInfo2 = GetInfoAboutItem(itemName2, 1, false),
+				ItemCount2 = itemCount,
+				TotalTimeInfo2 = ItemInfoService.GetTotalTime(item2, itemCount),
+				ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, itemCount, showListOfComponents),
+				ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, showListOfComponents, "componentsTree2"),
 				ApiVersion = apiVersion
 			};
 
@@ -103,8 +112,14 @@ namespace FamilyIslandHelper.Web.Controllers
 				compareViewModel.ItemName2 = items2.FirstOrDefault();
 			}
 
-			compareViewModel.ItemInfo1 = GetInfoAboutItem(compareViewModel.ItemName1, compareViewModel.ItemCount1, compareViewModel.ShowListOfComponentsForAll);
-			compareViewModel.ItemInfo2 = GetInfoAboutItem(compareViewModel.ItemName2, compareViewModel.ItemCount2, compareViewModel.ShowListOfComponentsForAll);
+			var item1 = itemHelper.FindItemByName(compareViewModel.ItemName1);
+			var item2 = itemHelper.FindItemByName(compareViewModel.ItemName2);
+
+			compareViewModel.ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, compareViewModel.ItemCount1, compareViewModel.ShowListOfComponentsForAll);
+			compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, compareViewModel.ItemCount2, compareViewModel.ShowListOfComponentsForAll);
+
+			compareViewModel.TotalTimeInfo1 = ItemInfoService.GetTotalTime(item1, compareViewModel.ItemCount1);
+			compareViewModel.TotalTimeInfo2 = ItemInfoService.GetTotalTime(item2, compareViewModel.ItemCount2);
 
 			compareViewModel.ItemCompareInfo = ItemHelper.CompareItems(itemHelper.FindItemByName(compareViewModel.ItemName1), compareViewModel.ItemCount1, itemHelper.FindItemByName(compareViewModel.ItemName2), compareViewModel.ItemCount2);
 
@@ -114,34 +129,10 @@ namespace FamilyIslandHelper.Web.Controllers
 			compareViewModel.Building1ProduceRatio = buildingHelper.CreateBuilding(compareViewModel.BuildingName1).ProduceRatio;
 			compareViewModel.Building2ProduceRatio = buildingHelper.CreateBuilding(compareViewModel.BuildingName2).ProduceRatio;
 
+			compareViewModel.ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, compareViewModel.ShowListOfComponentsForAll, "componentsTree1");
+			compareViewModel.ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, compareViewModel.ShowListOfComponentsForAll, "componentsTree2");
+
 			return View(compareViewModel);
-		}
-
-		private string GetInfoAboutItem(string itemName, int itemCount, bool showListOfComponents)
-		{
-			if (itemName == null)
-			{
-				throw new ArgumentNullException(nameof(itemName));
-			}
-
-			var item = itemHelper.FindItemByName(itemName);
-
-			var info = item.ToString(itemCount);
-			if (item is ProducibleItem producibleItem)
-			{
-				if (showListOfComponents)
-				{
-					info += "\n";
-					info += "Components:\n";
-					foreach (var componentInfo in producibleItem.ComponentsInfo(0, itemCount))
-					{
-						info += componentInfo + "\n";
-					}
-				}
-				info += "\n";
-				info += "Итого времени на производство: " + TimeSpan.FromSeconds(producibleItem.TotalProduceTime.TotalSeconds * itemCount) + "\n";
-			}
-			return info;
 		}
 	}
 }

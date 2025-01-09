@@ -23,6 +23,11 @@ namespace FamilyIslandHelper.Web.Models
 		public string ItemName2 { get; set; }
 		public string ItemInfo2 { get; set; }
 
+		public string TotalTimeInfo1 { get; set; }
+		public string TotalTimeInfo2 { get; set; }
+		public string ComponentsTreeHtml1 { get; set; }
+		public string ComponentsTreeHtml2 { get; set; }
+
 		public string ItemCompareInfo { get; set; }
 	}
 }

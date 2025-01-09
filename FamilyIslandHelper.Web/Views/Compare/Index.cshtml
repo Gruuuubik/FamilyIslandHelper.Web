@@ -1,6 +1,7 @@
 ﻿@using FamilyIslandHelper.Api;
 @using System.Collections;
 @using FamilyIslandHelper.Api.Models.Abstract;
+@using System.Web
 @model CompareViewModel
 
 @{
@@ -75,8 +76,19 @@
 						<input type="number" class="itemCount" id="ItemCount1" name="ItemCount1" min="1" max="20" value="@Model.ItemCount1" />
 					</div>
 					<div>
+						<label>Total production time:</label>
+						<span id="totalTimeInfo1">@Model.TotalTimeInfo1</span>
+					</div>
+					<div>
 						<textarea id="ItemInfo1" name="ItemInfo1" class="personal">@Model.ItemInfo1</textarea>
 					</div>
+					@if (Model.ShowListOfComponentsForAll)
+					{
+						<div>
+							<label>Components:</label>
+							@Html.Raw(HttpUtility.HtmlDecode(@Model.ComponentsTreeHtml1))
+						</div>
+					}
 				</div>
 			</div>
 
@@ -114,8 +126,19 @@
 						<input type="number" class="itemCount" id="ItemCount2" name="ItemCount2" min="1" max="20" value="@Model.ItemCount2" />
 					</div>
 					<div>
+						<label>Total production time:</label>
+						<span id="totalTimeInfo2">@Model.TotalTimeInfo2</span>
+					</div>
+					<div>
 						<textarea id="ItemInfo2" name="ItemInfo2" class="personal">@Model.ItemInfo2</textarea>
 					</div>
+					@if (Model.ShowListOfComponentsForAll)
+					{
+						<div>
+							<label>Components:</label>
+							@Html.Raw(HttpUtility.HtmlDecode(@Model.ComponentsTreeHtml2))
+						</div>
+					}
 				</div>
 			</div>
 		</div>
