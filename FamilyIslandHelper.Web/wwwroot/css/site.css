@@ -199,3 +199,51 @@ img.selectedImage {
         box-sizing: inherit;
     }
 /*Pretty checkbox end*/
+
+.treeview ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.treeview li {
+    margin: 5px 0;
+    position: relative;
+}
+
+    .treeview li::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -10px;
+        border-left: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        width: 10px;
+        height: 15px;
+    }
+
+    .treeview li::after {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: -10px;
+        border-left: 1px solid #ccc;
+        height: 100%;
+    }
+
+    .treeview li:last-child::after {
+        display: none;
+    }
+
+.treeview span {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+}
+
+    .treeview span:hover {
+        background-color: #e0e0e0;
+    }
+
+.treeview img {
+    cursor: pointer;
+}

@@ -16,5 +16,8 @@ namespace FamilyIslandHelper.Web.Models
 		public int ItemCount { get; set; }
 		public string ItemName { get; set; }
 		public string ItemInfo { get; set; }
+		public string TotalTimeInfo { get; set; }
+
+		public string ComponentsTreeHtml { get; set; }
 	}
 }

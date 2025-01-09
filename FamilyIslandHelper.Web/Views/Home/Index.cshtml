@@ -1,6 +1,7 @@
 ﻿@using FamilyIslandHelper.Api;
 @using System.Collections;
 @using FamilyIslandHelper.Api.Models.Abstract;
+@using System.Web
 @model ViewModel
 
 @{
@@ -71,8 +72,19 @@
 				<input type="number" class="itemCount" id="ItemCount" name="ItemCount" min="1" max="20" value="@Model.ItemCount" />
 			</div>
 			<div>
+				<label>Total production time:</label>
+				<span id="totalTimeInfo">@Model.TotalTimeInfo</span>
+			</div>
+			<div>
 				<textarea id="ItemInfo" name="ItemInfo" class="personal">@Model.ItemInfo</textarea>
 			</div>
+			@if (Model.ShowListOfComponents)
+			{
+				<div>
+					<label>Components:</label>
+					@Html.Raw(HttpUtility.HtmlDecode(@Model.ComponentsTreeHtml))
+				</div>
+			}
 		</div>
 	</form>
 </body>

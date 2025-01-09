@@ -89,6 +89,15 @@ if (apiVersionCompare2 != null) {
 	});
 }
 
+document.querySelectorAll('.treeview div').forEach(treeItem => {
+	treeItem.addEventListener('click', () => {
+		const nextUl = treeItem.nextElementSibling;
+		if (nextUl && nextUl.tagName === 'UL') {
+			nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+		}
+	});
+});
+
 function setItemName(event, itemNameId, formId) {
 	document.getElementById(itemNameId).value = event.currentTarget.id;
 

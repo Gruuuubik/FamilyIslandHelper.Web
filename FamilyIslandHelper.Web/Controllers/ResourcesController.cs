@@ -6,6 +6,8 @@ namespace FamilyIslandHelper.Web.Controllers
 {
 	public class ResourcesController : Controller
 	{
+		private const string contentType = "image/png";
+
 		[HttpGet("/resources/{apiVersion}/{buildingName}")]
 		public IActionResult GetBuildingImage(string buildingName, ApiVersion apiVersion)
 		{
@@ -17,7 +19,7 @@ namespace FamilyIslandHelper.Web.Controllers
 				return NotFound();
 			}
 
-			return File(stream, "image/png");
+			return File(stream, contentType);
 		}
 
 		[HttpGet("/resources/{apiVersion}/{buildingName}/{itemName}")]
@@ -31,7 +33,21 @@ namespace FamilyIslandHelper.Web.Controllers
 				return NotFound();
 			}
 
-			return File(stream, "image/png");
+			return File(stream, contentType);
+		}
+
+		[HttpGet("/resources/{apiVersion}/res/{resourceName}")]
+		public IActionResult GetResourceImage(string resourceName, ApiVersion apiVersion)
+		{
+			var itemHelper = new ItemHelper(apiVersion);
+			var stream = itemHelper.GetResourceImageStreamByName(resourceName);
+
+			if (stream == null)
+			{
+				return NotFound();
+			}
+
+			return File(stream, contentType);
 		}
 	}
 }
