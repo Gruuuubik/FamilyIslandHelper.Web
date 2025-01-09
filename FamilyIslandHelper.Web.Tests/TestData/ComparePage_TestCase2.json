@@ -3,7 +3,9 @@
   "buildingId": "Forge",
   "item1Id": "Needle",
   "item1Info": "00:08:00, 216",
+  "totalTimeInfo1": "00:08:00",
   "item2Id": "Glass",
   "item2Info": "00:35:00, 1928",
+  "expectedComponentsTreeImagesCount": "8",
   "item1InfoFor2": "01:10:00, 3856"
 }

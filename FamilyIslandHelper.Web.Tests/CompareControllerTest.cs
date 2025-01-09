@@ -25,12 +25,14 @@ namespace FamilyIslandHelper.Web.Tests
 					3.1.1. Check that building is selected.
 					3.1.2. Check that the 1st item from this building is selected.
 					3.1.3. Check item info.
+					3.1.4. Check total time info.
 					3.1.4. Check that another item from this building is not selected.
 				3.2. Select Item 2 from current building.
 					3.2.1. Check that Item 2 from this building is selected.
 					3.2.2. Check item info.
 				3.3. Turn on showing of list of components.
 					3.3.1. Check that item info contains Components info.
+					3.3.2. Check that components tree contains all necessary components.
 				3.4. Set ItemCount = 2.
 					3.4.1. Check that item info is updated.
 			4. Turn off showing of list of components.
@@ -39,12 +41,14 @@ namespace FamilyIslandHelper.Web.Tests
 					5.1.1. Check that building is selected.
 					5.1.2. Check that the 1st item from this building is selected.
 					5.1.3. Check item info.
+					5.1.4. Check total time info.
 					5.1.4. Check that another item from this building is not selected.
 				5.2. Select Item 2 from current building.
 					5.2.1. Check that Item 2 from this building is selected.
 					5.2.2. Check item info.
 				5.3. Turn on showing of list of components.
 					5.3.1. Check that item info contains Components info.
+					5.3.2. Check that components tree contains all necessary components.
 				5.4. Set ItemCount = 2.
 					5.4.1. Check that item info is updated.
 			6. Check item compare info.
@@ -59,11 +63,11 @@ namespace FamilyIslandHelper.Web.Tests
 
 				driver.FindElement(By.Id(testDataDictionary["apiVersionId"])).Click();
 
-				CheckComponent(testDataDictionary, "Component1", "ItemInfo1", "ItemCount1");
+				CheckComponent(testDataDictionary, 1);
 
 				driver.FindElement(By.Id("ShowListOfComponentsForAll")).Click();
 
-				CheckComponent(testDataDictionary, "Component2", "ItemInfo2", "ItemCount2");
+				CheckComponent(testDataDictionary, 2);
 
 				Assert.That(driver.FindElement(By.Id("ItemCompareInfo")).Text, Is.Not.Empty);
 			}
@@ -74,8 +78,14 @@ namespace FamilyIslandHelper.Web.Tests
 			}
 		}
 
-		private void CheckComponent(Dictionary<string, string> testDataDictionary, string componentId, string itemInfoId, string itemCountId)
+		private void CheckComponent(Dictionary<string, string> testDataDictionary, int componentNumber)
 		{
+			var componentId = "Component" + componentNumber;
+			var itemInfoId = "ItemInfo" + componentNumber;
+			var totalTimeInfoId = "totalTimeInfo" + componentNumber;
+			var itemCountId = "ItemCount" + componentNumber;
+			var componentsTreeId = "componentsTree" + componentNumber;
+
 			var component = driver.FindElement(By.Id(componentId));
 
 			var building = component.FindElement(By.Id(testDataDictionary["buildingId"]));
@@ -90,6 +100,10 @@ namespace FamilyIslandHelper.Web.Tests
 
 			var itemInfo = component.FindElement(By.Id(itemInfoId));
 			Assert.That(itemInfo.Text, Does.Contain(testDataDictionary["item1Info"]));
+
+			//3.1.4/5.1.4
+			var totalTimeInfo = driver.FindElement(By.Id(totalTimeInfoId));
+			Assert.That(totalTimeInfo.Text, Is.EqualTo(testDataDictionary["totalTimeInfo1"]));
 
 			var item2 = component.FindElement(By.Id(testDataDictionary["item2Id"]));
 			Assert.That(item2.GetAttribute("class"), Is.EqualTo("itemNameImage"));
@@ -106,6 +120,11 @@ namespace FamilyIslandHelper.Web.Tests
 			component = driver.FindElement(By.Id(componentId));
 			itemInfo = component.FindElement(By.Id(itemInfoId));
 			Assert.That(itemInfo.Text, Does.Contain("Components"));
+
+			//3.3.2/5.3.2
+			var componentsTree = driver.FindElement(By.Id(componentsTreeId));
+			var componentsTreeImages = componentsTree.FindElements(By.TagName("img"));
+			Assert.That(componentsTreeImages, Has.Count.EqualTo(int.Parse(testDataDictionary["expectedComponentsTreeImagesCount"])));
 
 			var itemCount = component.FindElement(By.Id(itemCountId));
 			new Actions(driver).MoveToElement(itemCount).Click().SendKeys(Keys.Backspace).SendKeys("2").SendKeys(Keys.Enter).Perform();
