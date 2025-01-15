@@ -19,11 +19,6 @@ if (ItemCount != null) {
 		document.getElementById('mainForm').submit();
 	});
 }
-if (ShowListOfComponents != null) {
-	ShowListOfComponents.addEventListener("change", function () {
-		document.getElementById('mainForm').submit();
-	});
-}
 
 if (BuildingName1 != null) {
 	BuildingName1.addEventListener("change", function () {
