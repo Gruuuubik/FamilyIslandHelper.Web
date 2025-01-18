@@ -10,7 +10,7 @@ namespace FamilyIslandHelper.Web.Controllers
 {
 	public class HomeController : Controller
 	{
-		private ViewModel viewModel;
+		private HomeViewModel viewModel;
 
 		private ApiVersion apiVersion = ApiVersion.v2;
 		private BuildingHelper buildingHelper;
@@ -40,7 +40,7 @@ namespace FamilyIslandHelper.Web.Controllers
 			var showListOfComponents = false;
 			var item1 = itemHelper.FindItemByName(itemName1);
 
-			viewModel = new ViewModel
+			viewModel = new HomeViewModel
 			{
 				BuildingsNames = buildingsNames,
 				BuildingProduceRatio = buildingHelper.CreateBuilding(buildingName1).ProduceRatio,
@@ -59,7 +59,7 @@ namespace FamilyIslandHelper.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Index(ViewModel viewModel)
+		public IActionResult Index(HomeViewModel viewModel)
 		{
 			if (viewModel == null)
 			{

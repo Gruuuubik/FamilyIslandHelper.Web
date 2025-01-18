@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FamilyIslandHelper.Web.Models
 {
-	public class ViewModel
+	public class HomeViewModel
 	{
 		public ApiVersion ApiVersion { get; set; }
 
