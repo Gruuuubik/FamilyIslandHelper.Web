@@ -5,7 +5,7 @@ on:
 
   push:
     branches:
-      - web
+      - main
   pull_request:
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         dotnet-version: [ '6.0.X' ]
-        configuration: [Release]
+        configuration: [ Release ]
 
     name: Windows Build
     runs-on: windows-latest
