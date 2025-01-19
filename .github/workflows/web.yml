@@ -45,3 +45,15 @@ jobs:
         name: Screens from Selenium tests
         path: '${{ github.workspace }}/FamilyIslandHelper.Web.Tests/bin/${{ matrix.configuration }}/net6.0/Screens'
         if-no-files-found: 'ignore'
+
+    - name: 🛠️ Publish project
+      if: always()
+      run: dotnet publish FamilyIslandHelper.Web/FamilyIslandHelper.Web.csproj -c ${{ matrix.configuration }} /p:PublishProfile=FolderProfile
+
+    - name: 💾 Upload published files as artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: published-site
+        path: ${{ github.workspace }}/FamilyIslandHelper.Web/bin/${{ matrix.configuration }}/net6.0/win-x64/publish
+        retention-days: 7
