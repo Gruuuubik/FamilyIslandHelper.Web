@@ -39,6 +39,10 @@
 				@Html.CheckBoxFor(m => m.ShowListOfComponentsForAll, new { @class = "switch" })
 				@Html.LabelFor(m => m.ShowListOfComponentsForAll)
 			</div>
+			<div class="checkbox-wrapper-14">
+				@Html.CheckBoxFor(m => m.ShowComponentsWithTimeAndEnergyForAll, new { @class = "switch" })
+				@Html.LabelFor(m => m.ShowComponentsWithTimeAndEnergyForAll)
+			</div>
 		</div>
 
 		<div class="float-container">
@@ -79,9 +83,12 @@
 						<label>Total production time:</label>
 						<span id="totalTimeInfo1">@Model.TotalTimeInfo1</span>
 					</div>
-					<div>
-						<textarea id="ItemInfo1" name="ItemInfo1" class="personal">@Model.ItemInfo1</textarea>
-					</div>
+					@if (Model.ShowComponentsWithTimeAndEnergyForAll)
+					{
+						<div>
+							<textarea id="ItemInfo1" name="ItemInfo1" class="personal">@Model.ItemInfo1</textarea>
+						</div>
+					}
 					@if (Model.ShowListOfComponentsForAll)
 					{
 						<div>
@@ -129,9 +136,12 @@
 						<label>Total production time:</label>
 						<span id="totalTimeInfo2">@Model.TotalTimeInfo2</span>
 					</div>
-					<div>
-						<textarea id="ItemInfo2" name="ItemInfo2" class="personal">@Model.ItemInfo2</textarea>
-					</div>
+					@if (Model.ShowComponentsWithTimeAndEnergyForAll)
+					{
+						<div>
+							<textarea id="ItemInfo2" name="ItemInfo2" class="personal">@Model.ItemInfo2</textarea>
+						</div>
+					}
 					@if (Model.ShowListOfComponentsForAll)
 					{
 						<div>

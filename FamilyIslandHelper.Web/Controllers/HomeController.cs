@@ -37,7 +37,8 @@ namespace FamilyIslandHelper.Web.Controllers
 			var itemName1 = items1.First();
 
 			var itemCount = 1;
-			var showListOfComponents = false;
+			var showListOfComponents = true;
+			var showComponentsWithTimeAndEnergy = false;
 			var item1 = itemHelper.FindItemByName(itemName1);
 
 			viewModel = new HomeViewModel
@@ -46,14 +47,19 @@ namespace FamilyIslandHelper.Web.Controllers
 				BuildingProduceRatio = buildingHelper.CreateBuilding(buildingName1).ProduceRatio,
 				BuildingName = buildingName1,
 				ShowListOfComponents = showListOfComponents,
+				ShowComponentsWithTimeAndEnergy = showComponentsWithTimeAndEnergy,
 				Items = items1,
 				ItemName = itemName1,
 				ItemCount = itemCount,
 				TotalTimeInfo = ItemInfoService.GetTotalTime(item1, itemCount),
-				ItemInfo = ItemInfoService.GetInfoAboutItem(item1, itemCount, showListOfComponents),
 				ApiVersion = apiVersion,
 				ComponentsTreeHtml = ItemInfoService.GetComponentsTree(apiVersion,item1, showListOfComponents, "componentsTree")
 			};
+
+			if (showComponentsWithTimeAndEnergy)
+			{
+				viewModel.ItemInfo = ItemInfoService.GetInfoAboutItem(item1, itemCount, showListOfComponents);
+			}
 
 			return View(viewModel);
 		}
@@ -88,7 +94,11 @@ namespace FamilyIslandHelper.Web.Controllers
 
 			var item = itemHelper.FindItemByName(viewModel.ItemName);
 
-			viewModel.ItemInfo = ItemInfoService.GetInfoAboutItem(item, viewModel.ItemCount, viewModel.ShowListOfComponents);
+			if (viewModel.ShowComponentsWithTimeAndEnergy)
+			{
+				viewModel.ItemInfo = ItemInfoService.GetInfoAboutItem(item, viewModel.ItemCount, viewModel.ShowListOfComponents);
+			}
+
 			viewModel.TotalTimeInfo = ItemInfoService.GetTotalTime(item, viewModel.ItemCount);
 
 			viewModel.Items = items;

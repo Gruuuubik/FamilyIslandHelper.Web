@@ -12,7 +12,9 @@ namespace FamilyIslandHelper.Web.Models
 		public double Building2ProduceRatio { get; set; }
 		public string BuildingName1 { get; set; }
 		public string BuildingName2 { get; set; }
+
 		public bool ShowListOfComponentsForAll { get; set; }
+		public bool ShowComponentsWithTimeAndEnergyForAll { get; set; }
 
 		public List<string> Items1 { get; set; }
 		public List<string> Items2 { get; set; }

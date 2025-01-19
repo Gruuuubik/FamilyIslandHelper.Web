@@ -9,6 +9,9 @@ var ItemCount2 = document.getElementById("ItemCount2");
 var ShowListOfComponents = document.getElementById("ShowListOfComponents");
 var ShowListOfComponentsForAll = document.getElementById("ShowListOfComponentsForAll");
 
+var showComponentsWithTimeAndEnergy = document.getElementById("ShowComponentsWithTimeAndEnergy");
+var showComponentsWithTimeAndEnergyForAll = document.getElementById("ShowComponentsWithTimeAndEnergyForAll");
+
 if (BuildingName != null) {
 	BuildingName.addEventListener("change", function () {
 		document.getElementById('mainForm').submit();
@@ -52,6 +55,17 @@ if (ShowListOfComponents != null) {
 
 if (ShowListOfComponentsForAll != null) {
 	ShowListOfComponentsForAll.addEventListener("change", function () {
+		document.getElementById('mainFormCompare').submit();
+	});
+}
+
+if (showComponentsWithTimeAndEnergy != null) {
+	showComponentsWithTimeAndEnergy.addEventListener("change", function () {
+		document.getElementById('mainForm').submit();
+	});
+}
+if (showComponentsWithTimeAndEnergyForAll != null) {
+	showComponentsWithTimeAndEnergyForAll.addEventListener("change", function () {
 		document.getElementById('mainFormCompare').submit();
 	});
 }

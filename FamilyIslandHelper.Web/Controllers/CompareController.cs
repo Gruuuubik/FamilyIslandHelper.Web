@@ -43,7 +43,8 @@ namespace FamilyIslandHelper.Web.Controllers
 			var itemName2 = items2.First();
 
 			var itemCount = 1;
-			var showListOfComponents = false;
+			var showListOfComponents = true;
+			var showComponentsWithTimeAndEnergyForAll = false;
 			var item1 = itemHelper.FindItemByName(itemName1);
 			var item2 = itemHelper.FindItemByName(itemName2);
 
@@ -55,20 +56,25 @@ namespace FamilyIslandHelper.Web.Controllers
 				BuildingName1 = buildingName1,
 				BuildingName2 = buildingName2,
 				ShowListOfComponentsForAll = showListOfComponents,
+				ShowComponentsWithTimeAndEnergyForAll = showComponentsWithTimeAndEnergyForAll,
 				Items1 = items1,
 				ItemName1 = itemName1,
 				ItemCount1 = itemCount,
 				TotalTimeInfo1 = ItemInfoService.GetTotalTime(item1, itemCount),
-				ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, itemCount, showListOfComponents),
 				ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, showListOfComponents, "componentsTree1"),
 				Items2 = items2,
 				ItemName2 = itemName2,
 				ItemCount2 = itemCount,
 				TotalTimeInfo2 = ItemInfoService.GetTotalTime(item2, itemCount),
-				ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, itemCount, showListOfComponents),
 				ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, showListOfComponents, "componentsTree2"),
 				ApiVersion = apiVersion
 			};
+
+			if (showComponentsWithTimeAndEnergyForAll)
+			{
+				compareViewModel.ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, itemCount, showListOfComponents);
+				compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, itemCount, showListOfComponents);
+			}
 
 			return View(compareViewModel);
 		}
@@ -115,8 +121,11 @@ namespace FamilyIslandHelper.Web.Controllers
 			var item1 = itemHelper.FindItemByName(compareViewModel.ItemName1);
 			var item2 = itemHelper.FindItemByName(compareViewModel.ItemName2);
 
-			compareViewModel.ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, compareViewModel.ItemCount1, compareViewModel.ShowListOfComponentsForAll);
-			compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, compareViewModel.ItemCount2, compareViewModel.ShowListOfComponentsForAll);
+			if (compareViewModel.ShowComponentsWithTimeAndEnergyForAll)
+			{
+				compareViewModel.ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, compareViewModel.ItemCount1, compareViewModel.ShowListOfComponentsForAll);
+				compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, compareViewModel.ItemCount2, compareViewModel.ShowListOfComponentsForAll);
+			}
 
 			compareViewModel.TotalTimeInfo1 = ItemInfoService.GetTotalTime(item1, compareViewModel.ItemCount1);
 			compareViewModel.TotalTimeInfo2 = ItemInfoService.GetTotalTime(item2, compareViewModel.ItemCount2);
