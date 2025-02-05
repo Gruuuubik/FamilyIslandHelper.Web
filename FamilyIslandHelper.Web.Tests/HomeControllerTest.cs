@@ -45,7 +45,7 @@ namespace FamilyIslandHelper.Web.Tests
 			{
 				var testDataDictionary = GetTestData(testDataJsonFileName);
 
-				Assert.That(driver.FindElements(By.ClassName("buildingImageName")), Has.Count.EqualTo(17));
+				Assert.That(driver.FindElements(By.ClassName("buildingImageName")), Has.Count.EqualTo(18));
 
 				driver.FindElement(By.Id(testDataDictionary["apiVersionId"])).Click();
 
