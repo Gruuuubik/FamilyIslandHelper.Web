@@ -35,7 +35,7 @@ namespace FamilyIslandHelper.Web.Controllers
 			var itemCount = 1;
 			var showListOfComponents = true;
 			var showComponentsWithTimeAndEnergyForAll = false;
-			var itemsCountOnView = 2;
+			var itemsCountOnView = 1;
 
 			var buildingName1 = buildingsNames.First();
 			var items1 = buildingHelper.GetItemsOfBuilding(buildingName1);
