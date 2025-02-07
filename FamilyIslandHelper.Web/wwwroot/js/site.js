@@ -98,6 +98,20 @@ if (apiVersionCompare2 != null) {
 	});
 }
 
+var itemsCountOnView1 = document.getElementById("ItemsCountOnView1");
+var itemsCountOnView2 = document.getElementById("ItemsCountOnView2");
+
+if (itemsCountOnView1 != null) {
+	itemsCountOnView1.addEventListener("click", function () {
+		document.getElementById('mainFormCompare').submit();
+	});
+}
+if (itemsCountOnView2 != null) {
+	itemsCountOnView2.addEventListener("click", function () {
+		document.getElementById('mainFormCompare').submit();
+	});
+}
+
 document.querySelectorAll('.treeview div').forEach(treeItem => {
 	treeItem.addEventListener('click', () => {
 		const nextUl = treeItem.nextElementSibling;

@@ -31,10 +31,36 @@
 				<input id="ApiVersionCompare2" name="ApiVersion" type="radio" value="v2">
 			}
 		</div>
+		<div id="itemsCountSelector">
+			<label>Items count:</label>
+			<label>1</label>
+			@if (Model.ItemsCountOnView == 1)
+			{
+				<input id="ItemsCountOnView1" name="ItemsCountOnView" type="radio" value="1" checked="checked">
+			}
+			else
+			{
+				<input id="ItemsCountOnView1" name="ItemsCountOnView" type="radio" value="1">
+			}
+			<label>2</label>
+			@if (Model.ItemsCountOnView == 2)
+			{
+				<input id="ItemsCountOnView2" name="ItemsCountOnView" type="radio" value="2" checked="checked">
+			}
+			else
+			{
+				<input id="ItemsCountOnView2" name="ItemsCountOnView" type="radio" value="2">
+			}
+		</div>
+
+		@if (Model.ItemsCountOnView == 2)
+		{
+			<div>
+				<textarea id="ItemCompareInfo" name="ItemCompareInfo">@Model.ItemCompareInfo</textarea>
+			</div>
+		}
 
 		<div id="CommonSettings" class="commonSettings">
-			<textarea id="ItemCompareInfo" name="ItemCompareInfo">@Model.ItemCompareInfo</textarea>
-
 			<div class="checkbox-wrapper-14">
 				@Html.CheckBoxFor(m => m.ShowListOfComponentsForAll, new { @class = "switch" })
 				@Html.LabelFor(m => m.ShowListOfComponentsForAll)
@@ -99,58 +125,61 @@
 				</div>
 			</div>
 
-			<div class="float-child">
-				<div id="Component2" class="component">
-					<div id="BuildingsImages2">
-						@foreach (var buildingName2 in @Model.BuildingsNames)
-						{
-							var classes = "buildingImageName";
-							if (buildingName2 == @Model.BuildingName2)
+			@if (Model.ItemsCountOnView == 2)
+			{
+				<div class="float-child">
+					<div id="Component2" class="component">
+						<div id="BuildingsImages2">
+							@foreach (var buildingName2 in @Model.BuildingsNames)
 							{
-								classes += " selectedImage";
+								var classes = "buildingImageName";
+								if (buildingName2 == @Model.BuildingName2)
+								{
+									classes += " selectedImage";
+								}
+								<img class="@classes" id="@buildingName2" width="60" onclick="setBuildingName(event, 'BuildingName2', 'mainFormCompare');" src="/resources/@Model.ApiVersion/@buildingName2" alt="@buildingName2" title="@buildingName2">
 							}
-							<img class="@classes" id="@buildingName2" width="60" onclick="setBuildingName(event, 'BuildingName2', 'mainFormCompare');" src="/resources/@Model.ApiVersion/@buildingName2" alt="@buildingName2" title="@buildingName2">
-						}
-						<input type="hidden" name="BuildingName2" id="BuildingName2" value="@Model.BuildingName2" />
-					</div>
-					<div>
-						<label>Produce ratio: </label>@Html.DisplayFor(m => m.Building2ProduceRatio)
-					</div>
-					<div id="ItemsImages2">
-						@foreach (var itemName2 in @Model.Items2)
-						{
-							var classes = "itemNameImage";
-							if (itemName2 == @Model.ItemName2)
+							<input type="hidden" name="BuildingName2" id="BuildingName2" value="@Model.BuildingName2" />
+						</div>
+						<div>
+							<label>Produce ratio: </label>@Html.DisplayFor(m => m.Building2ProduceRatio)
+						</div>
+						<div id="ItemsImages2">
+							@foreach (var itemName2 in @Model.Items2)
 							{
-								classes += " selectedImage";
+								var classes = "itemNameImage";
+								if (itemName2 == @Model.ItemName2)
+								{
+									classes += " selectedImage";
+								}
+								<img class="@classes" id="@itemName2" width="60" onclick="setItemName(event, 'ItemName2', 'mainFormCompare');" src="/resources/@Model.ApiVersion/@Model.BuildingName2/@itemName2" alt="@itemName2" title="@itemName2">
 							}
-							<img class="@classes" id="@itemName2" width="60" onclick="setItemName(event, 'ItemName2', 'mainFormCompare');" src="/resources/@Model.ApiVersion/@Model.BuildingName2/@itemName2" alt="@itemName2" title="@itemName2">
+							<input type="hidden" name="ItemName2" id="ItemName2" value="@Model.ItemName2" />
+						</div>
+						<div>
+							@Html.LabelFor(m => m.ItemCount2, "Item count:")
+							<input type="number" class="itemCount" id="ItemCount2" name="ItemCount2" min="1" max="20" value="@Model.ItemCount2" />
+						</div>
+						<div>
+							<label>Total production time:</label>
+							<span id="totalTimeInfo2">@Model.TotalTimeInfo2</span>
+						</div>
+						@if (Model.ShowComponentsWithTimeAndEnergyForAll)
+						{
+							<div>
+								<textarea id="ItemInfo2" name="ItemInfo2" class="personal">@Model.ItemInfo2</textarea>
+							</div>
 						}
-						<input type="hidden" name="ItemName2" id="ItemName2" value="@Model.ItemName2" />
+						@if (Model.ShowListOfComponentsForAll)
+						{
+							<div>
+								<label>Components:</label>
+								@Html.Raw(HttpUtility.HtmlDecode(@Model.ComponentsTreeHtml2))
+							</div>
+						}
 					</div>
-					<div>
-						@Html.LabelFor(m => m.ItemCount2, "Item count:")
-						<input type="number" class="itemCount" id="ItemCount2" name="ItemCount2" min="1" max="20" value="@Model.ItemCount2" />
-					</div>
-					<div>
-						<label>Total production time:</label>
-						<span id="totalTimeInfo2">@Model.TotalTimeInfo2</span>
-					</div>
-					@if (Model.ShowComponentsWithTimeAndEnergyForAll)
-					{
-						<div>
-							<textarea id="ItemInfo2" name="ItemInfo2" class="personal">@Model.ItemInfo2</textarea>
-						</div>
-					}
-					@if (Model.ShowListOfComponentsForAll)
-					{
-						<div>
-							<label>Components:</label>
-							@Html.Raw(HttpUtility.HtmlDecode(@Model.ComponentsTreeHtml2))
-						</div>
-					}
 				</div>
-			</div>
+			}
 		</div>
 	</form>
 </body>
