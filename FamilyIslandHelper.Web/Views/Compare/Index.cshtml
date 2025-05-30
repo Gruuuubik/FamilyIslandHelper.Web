@@ -62,8 +62,8 @@
 				@Html.LabelFor(m => m.ShowListOfComponentsForAll)
 			</div>
 			<div class="checkbox-wrapper-14">
-				@Html.CheckBoxFor(m => m.ShowComponentsWithTimeAndEnergyForAll, new { @class = "switch" })
-				@Html.LabelFor(m => m.ShowComponentsWithTimeAndEnergyForAll)
+				@Html.CheckBoxFor(m => m.ShowComponentsWithEnergyForAll, new { @class = "switch" })
+				@Html.LabelFor(m => m.ShowComponentsWithEnergyForAll)
 			</div>
 		</div>
 
@@ -82,9 +82,6 @@
 						}
 						<input type="hidden" name="BuildingName1" id="BuildingName1" value="@Model.BuildingName1" />
 					</div>
-					<div>
-						<label>Produce ratio: </label>@Html.DisplayFor(m => m.Building1ProduceRatio)
-					</div>
 					<div id="ItemsImages1">
 						@foreach (var itemName1 in @Model.Items1)
 						{
@@ -101,11 +98,7 @@
 						@Html.LabelFor(m => m.ItemCount1, "Item count:")
 						<input type="number" class="itemCount" id="ItemCount1" name="ItemCount1" min="1" max="20" value="@Model.ItemCount1" />
 					</div>
-					<div>
-						<label>Total production time:</label>
-						<span id="totalTimeInfo1">@Model.TotalTimeInfo1</span>
-					</div>
-					@if (Model.ShowComponentsWithTimeAndEnergyForAll)
+					@if (Model.ShowComponentsWithEnergyForAll)
 					{
 						<div>
 							<textarea id="ItemInfo1" name="ItemInfo1" class="personal">@Model.ItemInfo1</textarea>
@@ -137,9 +130,6 @@
 							}
 							<input type="hidden" name="BuildingName2" id="BuildingName2" value="@Model.BuildingName2" />
 						</div>
-						<div>
-							<label>Produce ratio: </label>@Html.DisplayFor(m => m.Building2ProduceRatio)
-						</div>
 						<div id="ItemsImages2">
 							@foreach (var itemName2 in @Model.Items2)
 							{
@@ -156,11 +146,7 @@
 							@Html.LabelFor(m => m.ItemCount2, "Item count:")
 							<input type="number" class="itemCount" id="ItemCount2" name="ItemCount2" min="1" max="20" value="@Model.ItemCount2" />
 						</div>
-						<div>
-							<label>Total production time:</label>
-							<span id="totalTimeInfo2">@Model.TotalTimeInfo2</span>
-						</div>
-						@if (Model.ShowComponentsWithTimeAndEnergyForAll)
+						@if (Model.ShowComponentsWithEnergyForAll)
 						{
 							<div>
 								<textarea id="ItemInfo2" name="ItemInfo2" class="personal">@Model.ItemInfo2</textarea>

@@ -5,7 +5,7 @@ var ItemCount1 = document.getElementById("ItemCount1");
 var ItemCount2 = document.getElementById("ItemCount2");
 
 var ShowListOfComponentsForAll = document.getElementById("ShowListOfComponentsForAll");
-var showComponentsWithTimeAndEnergyForAll = document.getElementById("ShowComponentsWithTimeAndEnergyForAll");
+var showComponentsWithEnergyForAll = document.getElementById("ShowComponentsWithEnergyForAll");
 
 if (BuildingName1 != null) {
 	BuildingName1.addEventListener("change", function () {
@@ -36,8 +36,8 @@ if (ShowListOfComponentsForAll != null) {
 		document.getElementById('mainFormCompare').submit();
 	});
 }
-if (showComponentsWithTimeAndEnergyForAll != null) {
-	showComponentsWithTimeAndEnergyForAll.addEventListener("change", function () {
+if (showComponentsWithEnergyForAll != null) {
+	showComponentsWithEnergyForAll.addEventListener("change", function () {
 		document.getElementById('mainFormCompare').submit();
 	});
 }

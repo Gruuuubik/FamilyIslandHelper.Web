@@ -1,6 +1,5 @@
 ﻿using FamilyIslandHelper.Api;
 using FamilyIslandHelper.Api.Models.Abstract;
-using System;
 using System.Text;
 
 namespace FamilyIslandHelper.Web
@@ -25,16 +24,6 @@ namespace FamilyIslandHelper.Web
 			}
 
 			return info;
-		}
-
-		public static string GetTotalTime(Item item, int itemCount)
-		{
-			if (item is ProducibleItem producibleItem)
-			{
-				return TimeSpan.FromSeconds(producibleItem.TotalProduceTime.TotalSeconds * itemCount).ToString();
-			}
-
-			return string.Empty;
 		}
 
 		public static string GetComponentsTree(ApiVersion apiVersion, Item item, bool showListOfComponents, string componentsTreeId)

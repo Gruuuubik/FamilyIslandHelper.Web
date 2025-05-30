@@ -8,13 +8,11 @@ namespace FamilyIslandHelper.Web.Models
 		public ApiVersion ApiVersion { get; set; }
 
 		public List<string> BuildingsNames { get; set; }
-		public double Building1ProduceRatio { get; set; }
-		public double Building2ProduceRatio { get; set; }
 		public string BuildingName1 { get; set; }
 		public string BuildingName2 { get; set; }
 
 		public bool ShowListOfComponentsForAll { get; set; }
-		public bool ShowComponentsWithTimeAndEnergyForAll { get; set; }
+		public bool ShowComponentsWithEnergyForAll { get; set; }
 
 		public List<string> Items1 { get; set; }
 		public List<string> Items2 { get; set; }
@@ -25,8 +23,6 @@ namespace FamilyIslandHelper.Web.Models
 		public string ItemName2 { get; set; }
 		public string ItemInfo2 { get; set; }
 
-		public string TotalTimeInfo1 { get; set; }
-		public string TotalTimeInfo2 { get; set; }
 		public string ComponentsTreeHtml1 { get; set; }
 		public string ComponentsTreeHtml2 { get; set; }
 

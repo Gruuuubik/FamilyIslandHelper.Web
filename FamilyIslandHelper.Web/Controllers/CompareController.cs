@@ -34,7 +34,7 @@ namespace FamilyIslandHelper.Web.Controllers
 		{
 			var itemCount = 1;
 			var showListOfComponents = true;
-			var showComponentsWithTimeAndEnergyForAll = false;
+			var showComponentsWithEnergyForAll = false;
 			var itemsCountOnView = 1;
 
 			var buildingName1 = buildingsNames.First();
@@ -45,21 +45,19 @@ namespace FamilyIslandHelper.Web.Controllers
 			compareViewModel = new CompareViewModel
 			{
 				BuildingsNames = buildingsNames,
-				Building1ProduceRatio = buildingHelper.CreateBuilding(buildingName1).ProduceRatio,
 				BuildingName1 = buildingName1,
 				ShowListOfComponentsForAll = showListOfComponents,
-				ShowComponentsWithTimeAndEnergyForAll = showComponentsWithTimeAndEnergyForAll,
+				ShowComponentsWithEnergyForAll = showComponentsWithEnergyForAll,
 				Items1 = items1,
 				ItemName1 = itemName1,
 				ItemCount1 = itemCount,
-				TotalTimeInfo1 = ItemInfoService.GetTotalTime(item1, itemCount),
 				ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, showListOfComponents, "componentsTree1"),
 				ItemCount2 = itemCount,
 				ApiVersion = apiVersion,
 				ItemsCountOnView = itemsCountOnView
 			};
 
-			if (showComponentsWithTimeAndEnergyForAll)
+			if (showComponentsWithEnergyForAll)
 			{
 				compareViewModel.ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, itemCount, showListOfComponents);
 			}
@@ -71,15 +69,13 @@ namespace FamilyIslandHelper.Web.Controllers
 				var itemName2 = items2.First();
 				var item2 = itemHelper.FindItemByName(itemName2);
 
-				compareViewModel.Building2ProduceRatio = buildingHelper.CreateBuilding(buildingName2).ProduceRatio;
 				compareViewModel.BuildingName2 = buildingName2;
 				compareViewModel.Items2 = items2;
 				compareViewModel.ItemName2 = itemName2;
 				compareViewModel.ItemCount2 = itemCount;
-				compareViewModel.TotalTimeInfo2 = ItemInfoService.GetTotalTime(item2, itemCount);
 				compareViewModel.ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, showListOfComponents, "componentsTree2");
 
-				if (showComponentsWithTimeAndEnergyForAll)
+				if (showComponentsWithEnergyForAll)
 				{
 					compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, itemCount, showListOfComponents);
 				}
@@ -118,14 +114,12 @@ namespace FamilyIslandHelper.Web.Controllers
 
 			var item1 = itemHelper.FindItemByName(compareViewModel.ItemName1);
 
-			if (compareViewModel.ShowComponentsWithTimeAndEnergyForAll)
+			if (compareViewModel.ShowComponentsWithEnergyForAll)
 			{
 				compareViewModel.ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, compareViewModel.ItemCount1, compareViewModel.ShowListOfComponentsForAll);
 			}
 
-			compareViewModel.TotalTimeInfo1 = ItemInfoService.GetTotalTime(item1, compareViewModel.ItemCount1);
 			compareViewModel.Items1 = items1;
-			compareViewModel.Building1ProduceRatio = buildingHelper.CreateBuilding(compareViewModel.BuildingName1).ProduceRatio;
 			compareViewModel.ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, compareViewModel.ShowListOfComponentsForAll, "componentsTree1");
 
 			if (compareViewModel.ItemsCountOnView == 2)
@@ -144,14 +138,12 @@ namespace FamilyIslandHelper.Web.Controllers
 
 				var item2 = itemHelper.FindItemByName(compareViewModel.ItemName2);
 
-				if (compareViewModel.ShowComponentsWithTimeAndEnergyForAll)
+				if (compareViewModel.ShowComponentsWithEnergyForAll)
 				{
 					compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, compareViewModel.ItemCount2, compareViewModel.ShowListOfComponentsForAll);
 				}
 
-				compareViewModel.TotalTimeInfo2 = ItemInfoService.GetTotalTime(item2, compareViewModel.ItemCount2);
 				compareViewModel.Items2 = items2;
-				compareViewModel.Building2ProduceRatio = buildingHelper.CreateBuilding(compareViewModel.BuildingName2).ProduceRatio;
 				compareViewModel.ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, compareViewModel.ShowListOfComponentsForAll, "componentsTree2");
 
 				compareViewModel.ItemCompareInfo = ItemHelper.CompareItems(itemHelper.FindItemByName(compareViewModel.ItemName1), compareViewModel.ItemCount1, itemHelper.FindItemByName(compareViewModel.ItemName2), compareViewModel.ItemCount2);
