@@ -39,5 +39,12 @@ namespace FamilyIslandHelper.Web.Models
 		public string ItemCompareInfo { get; set; }
 
 		public int ItemsCountOnView { get; set; }
+
+		public Dictionary<string, string> DisplayNames { get; set; } = new();
+
+		public string GetDisplayName(string id)
+		{
+			return id != null && DisplayNames.TryGetValue(id, out var name) ? name : id;
+		}
 	}
 }

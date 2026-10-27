@@ -29,6 +29,31 @@ namespace FamilyIslandHelper.Web.Controllers
 			buildingsNames = buildingHelper.GetBuildingsNames();
 		}
 
+		private void FillDisplayNames(CompareViewModel model)
+		{
+			foreach (var b in buildingHelper.GetBuildingsClasses())
+			{
+				model.DisplayNames[b.Value] = b.Name;
+			}
+
+			var selectedBuildings = new List<string> { model.BuildingName1 };
+
+			if (model.ItemsCountOnView == 2)
+			{
+				selectedBuildings.Add(model.BuildingName2);
+			}
+
+			foreach (var buildingName in selectedBuildings)
+			{
+				if (string.IsNullOrEmpty(buildingName)) continue;
+
+				foreach (var item in buildingHelper.CreateBuilding(buildingName).Items)
+				{
+					model.DisplayNames[item.GetType().Name] = item.Name;
+				}
+			}
+		}
+
 		[HttpGet]
 		public IActionResult Index()
 		{
@@ -80,6 +105,8 @@ namespace FamilyIslandHelper.Web.Controllers
 					compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, itemCount, showListOfComponents);
 				}
 			}
+
+			FillDisplayNames(compareViewModel);
 
 			return View(compareViewModel);
 		}
@@ -148,6 +175,8 @@ namespace FamilyIslandHelper.Web.Controllers
 
 				compareViewModel.ItemCompareInfo = ItemHelper.CompareItems(itemHelper.FindItemByName(compareViewModel.ItemName1), compareViewModel.ItemCount1, itemHelper.FindItemByName(compareViewModel.ItemName2), compareViewModel.ItemCount2);
 			}
+
+			FillDisplayNames(compareViewModel);
 
 			return View(compareViewModel);
 		}
