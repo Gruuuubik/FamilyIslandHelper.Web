@@ -247,3 +247,8 @@ img.selectedImage {
 .treeview img {
     cursor: pointer;
 }
+
+.buildingImageName,
+.itemNameImage {
+    height: auto;
+}
