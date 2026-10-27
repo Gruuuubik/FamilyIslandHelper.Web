@@ -46,5 +46,11 @@ namespace FamilyIslandHelper.Web.Models
 		{
 			return id != null && DisplayNames.TryGetValue(id, out var name) ? name : id;
 		}
+
+		public string ResultTitle1 =>
+			$"{GetDisplayName(ItemName1)} × {ItemCount1} — {GetDisplayName(BuildingName1)}";
+
+		public string ResultTitle2 =>
+			$"{GetDisplayName(ItemName2)} × {ItemCount2} — {GetDisplayName(BuildingName2)}";
 	}
 }

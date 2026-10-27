@@ -86,6 +86,7 @@
 	<div class="float-container">
 		<div class="float-child">
 			<div id="Component1" class="component">
+				<div class="small text-muted mb-1">Здание</div>
 				<div id="BuildingsImages1">
 					@foreach (var buildingName1 in @Model.BuildingsNames)
 					{
@@ -98,6 +99,7 @@
 					}
 					<input type="hidden" name="BuildingName1" id="BuildingName1" value="@Model.BuildingName1" />
 				</div>
+				<div class="small text-muted mt-2 mb-1">Предмет</div>
 				<div id="ItemsImages1">
 					@foreach (var itemName1 in @Model.Items1)
 					{
@@ -114,6 +116,7 @@
 					@Html.LabelFor(m => m.ItemCount1)
 					<input type="number" class="itemCount" id="ItemCount1" name="ItemCount1" min="1" max="20" value="@Model.ItemCount1" />
 				</div>
+				<h2 class="h5 mt-3">@Model.ResultTitle1</h2>
 				@if (Model.ShowComponentsWithEnergyForAll)
 				{
 					<div>
@@ -134,6 +137,7 @@
 		{
 			<div class="float-child">
 				<div id="Component2" class="component">
+					<div class="small text-muted mb-1">Здание</div>
 					<div id="BuildingsImages2">
 						@foreach (var buildingName2 in @Model.BuildingsNames)
 						{
@@ -146,6 +150,7 @@
 						}
 						<input type="hidden" name="BuildingName2" id="BuildingName2" value="@Model.BuildingName2" />
 					</div>
+					<div class="small text-muted mt-2 mb-1">Предмет</div>
 					<div id="ItemsImages2">
 						@foreach (var itemName2 in @Model.Items2)
 						{
@@ -162,6 +167,7 @@
 						@Html.LabelFor(m => m.ItemCount2)
 						<input type="number" class="itemCount" id="ItemCount2" name="ItemCount2" min="1" max="20" value="@Model.ItemCount2" />
 					</div>
+					<h2 class="h5 mt-3">@Model.ResultTitle2</h2>
 					@if (Model.ShowComponentsWithEnergyForAll)
 					{
 						<div>
