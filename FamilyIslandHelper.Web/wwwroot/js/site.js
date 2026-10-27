@@ -1,75 +1,88 @@
-﻿var ItemCount1 = document.getElementById("ItemCount1");
-var ItemCount2 = document.getElementById("ItemCount2");
+﻿const form = document.getElementById('mainFormCompare');
 
-var ShowListOfComponentsForAll = document.getElementById("ShowListOfComponentsForAll");
-var showComponentsWithEnergyForAll = document.getElementById("ShowComponentsWithEnergyForAll");
+if (form) {
+	let currentRequest = null;
 
-if (ItemCount1 != null) {
-	ItemCount1.addEventListener("change", function () {
-		document.getElementById('mainFormCompare').submit();
+	async function refresh() {
+		const params = new URLSearchParams(new FormData(form));
+		const url = form.action + '?' + params.toString();
+
+		if (currentRequest) {
+			currentRequest.abort();
+		}
+
+		const request = new AbortController();
+		currentRequest = request;
+		form.classList.add('loading');
+
+		try {
+			const response = await fetch(url, { signal: request.signal });
+
+			if (!response.ok) {
+				throw new Error('HTTP ' + response.status);
+			}
+
+			const html = await response.text();
+			const doc = new DOMParser().parseFromString(html, 'text/html');
+			const newForm = doc.getElementById('mainFormCompare');
+
+			if (!newForm) {
+				throw new Error('Form not found in response');
+			}
+
+			form.innerHTML = newForm.innerHTML;
+			history.pushState(null, '', url);
+		} catch (error) {
+			if (error.name === 'AbortError') {
+				return;
+			}
+
+			// запасной вариант: обычная отправка формы
+			form.submit();
+		} finally {
+			if (currentRequest === request) {
+				currentRequest = null;
+				form.classList.remove('loading');
+			}
+		}
+	}
+
+	form.addEventListener('submit', function (event) {
+		event.preventDefault();
+		refresh();
 	});
-}
 
-if (ItemCount2 != null) {
-	ItemCount2.addEventListener("change", function () {
-		document.getElementById('mainFormCompare').submit();
-	});
-}
-
-if (ShowListOfComponentsForAll != null) {
-	ShowListOfComponentsForAll.addEventListener("change", function () {
-		document.getElementById('mainFormCompare').submit();
-	});
-}
-if (showComponentsWithEnergyForAll != null) {
-	showComponentsWithEnergyForAll.addEventListener("change", function () {
-		document.getElementById('mainFormCompare').submit();
-	});
-}
-
-var apiVersionCompare1 = document.getElementById("ApiVersionCompare1");
-var apiVersionCompare2 = document.getElementById("ApiVersionCompare2");
-
-if (apiVersionCompare1 != null) {
-	apiVersionCompare1.addEventListener("click", function () {
-		document.getElementById('mainFormCompare').submit();
-	});
-}
-if (apiVersionCompare2 != null) {
-	apiVersionCompare2.addEventListener("click", function () {
-		document.getElementById('mainFormCompare').submit();
-	});
-}
-
-var itemsCountOnView1 = document.getElementById("ItemsCountOnView1");
-var itemsCountOnView2 = document.getElementById("ItemsCountOnView2");
-
-if (itemsCountOnView1 != null) {
-	itemsCountOnView1.addEventListener("click", function () {
-		document.getElementById('mainFormCompare').submit();
-	});
-}
-if (itemsCountOnView2 != null) {
-	itemsCountOnView2.addEventListener("click", function () {
-		document.getElementById('mainFormCompare').submit();
-	});
-}
-
-document.querySelectorAll('.treeview div').forEach(treeItem => {
-	treeItem.addEventListener('click', () => {
-		const nextUl = treeItem.nextElementSibling;
-		if (nextUl && nextUl.tagName === 'UL') {
-			nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+	form.addEventListener('change', function (event) {
+		if (event.target.matches('input[type="radio"], #ItemCount1, #ItemCount2, #ShowListOfComponentsForAll, #ShowComponentsWithEnergyForAll')) {
+			refresh();
 		}
 	});
-});
 
-function setItemName(event, itemNameId, formId) {
-	document.getElementById(itemNameId).value = event.currentTarget.id;
-	document.getElementById(formId).submit();
+	form.addEventListener('click', function (event) {
+		const treeItem = event.target.closest('.treeview div');
+
+		if (treeItem && form.contains(treeItem)) {
+			const nextUl = treeItem.nextElementSibling;
+
+			if (nextUl && nextUl.tagName === 'UL') {
+				nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+			}
+		}
+	});
+
+	window.addEventListener('popstate', function () {
+		location.reload();
+	});
+
+	window.refreshCompareForm = refresh;
 }
 
-function setBuildingName(event, buildingNameId, formId) {
+function setItemName(event, itemNameId) {
+	document.getElementById(itemNameId).value = event.currentTarget.id;
+	window.refreshCompareForm();
+}
+
+function setBuildingName(event, buildingNameId) {
 	document.getElementById(buildingNameId).value = event.currentTarget.id;
-	document.getElementById(formId).submit();
+	window.refreshCompareForm();
 }

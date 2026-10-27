@@ -268,3 +268,9 @@ img.selectedImage {
         float: none;
     }
 }
+
+#mainFormCompare.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
