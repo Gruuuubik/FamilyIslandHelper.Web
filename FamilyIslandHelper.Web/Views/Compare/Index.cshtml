@@ -3,7 +3,6 @@
 @using FamilyIslandHelper.Api.Models.Abstract;
 @using System.Web
 @model CompareViewModel
-
 @{
 	ViewData["Title"] = "Калькулятор компонентов Family Island";
 }
@@ -24,8 +23,8 @@
 
 <form id="mainFormCompare" method="post" action="~/Compare/Index">
 	<div id="apiVersionSelector">
-		<label>API version:</label>
-		<label>v1</label>
+		<label>Версия API:</label>
+		<label for="ApiVersionCompare1">v1</label>
 		@if (Model.ApiVersion == ApiVersion.v1)
 		{
 			<input id="ApiVersionCompare1" name="ApiVersion" type="radio" value="v1" checked="checked">
@@ -34,7 +33,7 @@
 		{
 			<input id="ApiVersionCompare1" name="ApiVersion" type="radio" value="v1">
 		}
-		<label>v2</label>
+		<label for="ApiVersionCompare2">v2</label>
 		@if (Model.ApiVersion == ApiVersion.v2)
 		{
 			<input id="ApiVersionCompare2" name="ApiVersion" type="radio" value="v2" checked="checked">
@@ -45,8 +44,8 @@
 		}
 	</div>
 	<div id="itemsCountSelector">
-		<label>Items count:</label>
-		<label>1</label>
+		<label>Сколько предметов сравнивать:</label>
+		<label for="ItemsCountOnView1">1</label>
 		@if (Model.ItemsCountOnView == 1)
 		{
 			<input id="ItemsCountOnView1" name="ItemsCountOnView" type="radio" value="1" checked="checked">
@@ -55,7 +54,7 @@
 		{
 			<input id="ItemsCountOnView1" name="ItemsCountOnView" type="radio" value="1">
 		}
-		<label>2</label>
+		<label for="ItemsCountOnView2">2</label>
 		@if (Model.ItemsCountOnView == 2)
 		{
 			<input id="ItemsCountOnView2" name="ItemsCountOnView" type="radio" value="2" checked="checked">
@@ -112,7 +111,7 @@
 					<input type="hidden" name="ItemName1" id="ItemName1" value="@Model.ItemName1" />
 				</div>
 				<div>
-					@Html.LabelFor(m => m.ItemCount1, "Item count:")
+					@Html.LabelFor(m => m.ItemCount1)
 					<input type="number" class="itemCount" id="ItemCount1" name="ItemCount1" min="1" max="20" value="@Model.ItemCount1" />
 				</div>
 				@if (Model.ShowComponentsWithEnergyForAll)
@@ -124,7 +123,7 @@
 				@if (Model.ShowListOfComponentsForAll)
 				{
 					<div>
-						<label>Components:</label>
+						<label>Компоненты:</label>
 						@Html.Raw(HttpUtility.HtmlDecode(@Model.ComponentsTreeHtml1))
 					</div>
 				}
@@ -160,7 +159,7 @@
 						<input type="hidden" name="ItemName2" id="ItemName2" value="@Model.ItemName2" />
 					</div>
 					<div>
-						@Html.LabelFor(m => m.ItemCount2, "Item count:")
+						@Html.LabelFor(m => m.ItemCount2)
 						<input type="number" class="itemCount" id="ItemCount2" name="ItemCount2" min="1" max="20" value="@Model.ItemCount2" />
 					</div>
 					@if (Model.ShowComponentsWithEnergyForAll)
@@ -172,7 +171,7 @@
 					@if (Model.ShowListOfComponentsForAll)
 					{
 						<div>
-							<label>Components:</label>
+							<label>Компоненты:</label>
 							@Html.Raw(HttpUtility.HtmlDecode(@Model.ComponentsTreeHtml2))
 						</div>
 					}
