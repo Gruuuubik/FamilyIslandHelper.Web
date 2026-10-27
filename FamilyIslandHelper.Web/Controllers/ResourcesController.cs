@@ -8,6 +8,8 @@ namespace FamilyIslandHelper.Web.Controllers
 	public class ResourcesController : Controller
 	{
 		private const string contentType = "image/png";
+		private const int cacheDurationSeconds = 86400; // сутки
+
 		private static readonly Dictionary<ApiVersion, BuildingHelper> buildingHelperDictionary = new()
 		{
 			[ApiVersion.v1] = new BuildingHelper(ApiVersion.v1),
@@ -20,6 +22,7 @@ namespace FamilyIslandHelper.Web.Controllers
 		};
 
 		[HttpGet("/resources/{apiVersion}/{buildingName}")]
+		[ResponseCache(Duration = cacheDurationSeconds, Location = ResponseCacheLocation.Any)]
 		public IActionResult GetBuildingImage(string buildingName, ApiVersion apiVersion)
 		{
 			var stream = buildingHelperDictionary[apiVersion].GetBuildingImageStreamByName(buildingName);
@@ -33,6 +36,7 @@ namespace FamilyIslandHelper.Web.Controllers
 		}
 
 		[HttpGet("/resources/{apiVersion}/{buildingName}/{itemName}")]
+		[ResponseCache(Duration = cacheDurationSeconds, Location = ResponseCacheLocation.Any)]
 		public IActionResult GetItemImage(string buildingName, string itemName, ApiVersion apiVersion)
 		{
 			var stream = itemHelperDictionary[apiVersion].GetItemImageStreamByName(buildingName, itemName);
@@ -46,6 +50,7 @@ namespace FamilyIslandHelper.Web.Controllers
 		}
 
 		[HttpGet("/resources/{apiVersion}/res/{resourceName}")]
+		[ResponseCache(Duration = cacheDurationSeconds, Location = ResponseCacheLocation.Any)]
 		public IActionResult GetResourceImage(string resourceName, ApiVersion apiVersion)
 		{
 			var stream = itemHelperDictionary[apiVersion].GetResourceImageStreamByName(resourceName);
