@@ -10,8 +10,6 @@ namespace FamilyIslandHelper.Web.Controllers
 {
 	public class CompareController : Controller
 	{
-		private CompareViewModel compareViewModel;
-
 		private ApiVersion apiVersion = ApiVersion.v2;
 		private BuildingHelper buildingHelper;
 		private ItemHelper itemHelper;
@@ -29,94 +27,59 @@ namespace FamilyIslandHelper.Web.Controllers
 			buildingsNames = buildingHelper.GetBuildingsNames();
 		}
 
-		private void FillDisplayNames(CompareViewModel model)
+		[HttpGet]
+		public IActionResult Index(CompareViewModel model)
 		{
-			foreach (var b in buildingHelper.GetBuildingsClasses())
+			// первый заход без параметров: значения по умолчанию
+			if (!Request.Query.Any())
 			{
-				model.DisplayNames[b.Value] = b.Name;
+				return View(CreateDefaultModel());
 			}
 
-			var selectedBuildings = new List<string> { model.BuildingName1 };
-
-			if (model.ItemsCountOnView == 2)
-			{
-				selectedBuildings.Add(model.BuildingName2);
-			}
-
-			foreach (var buildingName in selectedBuildings)
-			{
-				if (string.IsNullOrEmpty(buildingName)) continue;
-
-				foreach (var item in buildingHelper.CreateBuilding(buildingName).Items)
-				{
-					model.DisplayNames[item.GetType().Name] = item.Name;
-				}
-			}
+			return View(BuildModel(model));
 		}
 
-		[HttpGet]
-		public IActionResult Index()
+		private CompareViewModel CreateDefaultModel()
 		{
 			var itemCount = 1;
 			var showListOfComponents = true;
-			var showComponentsWithEnergyForAll = false;
-			var itemsCountOnView = 1;
 
 			var buildingName1 = buildingsNames.First();
 			var items1 = buildingHelper.GetItemsOfBuilding(buildingName1);
 			var itemName1 = items1.First();
 			var item1 = itemHelper.FindItemByName(itemName1);
 
-			compareViewModel = new CompareViewModel
+			var model = new CompareViewModel
 			{
 				BuildingsNames = buildingsNames,
 				BuildingName1 = buildingName1,
 				ShowListOfComponentsForAll = showListOfComponents,
-				ShowComponentsWithEnergyForAll = showComponentsWithEnergyForAll,
+				ShowComponentsWithEnergyForAll = false,
 				Items1 = items1,
 				ItemName1 = itemName1,
 				ItemCount1 = itemCount,
 				ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, showListOfComponents, "componentsTree1"),
 				ItemCount2 = itemCount,
 				ApiVersion = apiVersion,
-				ItemsCountOnView = itemsCountOnView
+				ItemsCountOnView = 1
 			};
 
-			if (showComponentsWithEnergyForAll)
-			{
-				compareViewModel.ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, itemCount, showListOfComponents);
-			}
+			FillDisplayNames(model);
 
-			if (itemsCountOnView == 2)
-			{
-				var buildingName2 = buildingsNames.First();
-				var items2 = buildingHelper.GetItemsOfBuilding(buildingName2);
-				var itemName2 = items2.First();
-				var item2 = itemHelper.FindItemByName(itemName2);
-
-				compareViewModel.BuildingName2 = buildingName2;
-				compareViewModel.Items2 = items2;
-				compareViewModel.ItemName2 = itemName2;
-				compareViewModel.ItemCount2 = itemCount;
-				compareViewModel.ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, showListOfComponents, "componentsTree2");
-
-				if (showComponentsWithEnergyForAll)
-				{
-					compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, itemCount, showListOfComponents);
-				}
-			}
-
-			FillDisplayNames(compareViewModel);
-
-			return View(compareViewModel);
+			return model;
 		}
 
-		[HttpPost]
-		public IActionResult Index(CompareViewModel compareViewModel)
+		private CompareViewModel BuildModel(CompareViewModel compareViewModel)
 		{
 			if (compareViewModel == null)
 			{
 				throw new ArgumentNullException(nameof(compareViewModel));
+			}
+
+			// если в ссылке нет версии API, используем версию по умолчанию
+			if (!Request.Query.ContainsKey(nameof(CompareViewModel.ApiVersion)))
+			{
+				compareViewModel.ApiVersion = apiVersion;
 			}
 
 			if (compareViewModel.ApiVersion != apiVersion)
@@ -124,6 +87,10 @@ namespace FamilyIslandHelper.Web.Controllers
 				apiVersion = compareViewModel.ApiVersion;
 				InitHelpers();
 			}
+
+			compareViewModel.ItemsCountOnView = compareViewModel.ItemsCountOnView == 2 ? 2 : 1;
+			compareViewModel.ItemCount1 = Math.Clamp(compareViewModel.ItemCount1, 1, 20);
+			compareViewModel.ItemCount2 = Math.Clamp(compareViewModel.ItemCount2, 1, 20);
 
 			compareViewModel.BuildingsNames = buildingsNames;
 
@@ -173,12 +140,37 @@ namespace FamilyIslandHelper.Web.Controllers
 				compareViewModel.Items2 = items2;
 				compareViewModel.ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, compareViewModel.ShowListOfComponentsForAll, "componentsTree2");
 
-				compareViewModel.ItemCompareInfo = ItemHelper.CompareItems(itemHelper.FindItemByName(compareViewModel.ItemName1), compareViewModel.ItemCount1, itemHelper.FindItemByName(compareViewModel.ItemName2), compareViewModel.ItemCount2);
+				compareViewModel.ItemCompareInfo = ItemHelper.CompareItems(item1, compareViewModel.ItemCount1, item2, compareViewModel.ItemCount2);
 			}
 
 			FillDisplayNames(compareViewModel);
 
-			return View(compareViewModel);
+			return compareViewModel;
+		}
+
+		private void FillDisplayNames(CompareViewModel model)
+		{
+			foreach (var b in buildingHelper.GetBuildingsClasses())
+			{
+				model.DisplayNames[b.Value] = b.Name;
+			}
+
+			var selectedBuildings = new List<string> { model.BuildingName1 };
+
+			if (model.ItemsCountOnView == 2)
+			{
+				selectedBuildings.Add(model.BuildingName2);
+			}
+
+			foreach (var buildingName in selectedBuildings)
+			{
+				if (string.IsNullOrEmpty(buildingName)) continue;
+
+				foreach (var item in buildingHelper.CreateBuilding(buildingName).Items)
+				{
+					model.DisplayNames[item.GetType().Name] = item.Name;
+				}
+			}
 		}
 	}
 }

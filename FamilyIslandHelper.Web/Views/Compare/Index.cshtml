@@ -21,7 +21,7 @@
 	</ol>
 </header>
 
-<form id="mainFormCompare" method="post" action="~/Compare/Index">
+<form id="mainFormCompare" method="get" action="~/Compare/Index">
 	<div id="apiVersionSelector">
 		<label>Версия API:</label>
 		<label for="ApiVersionCompare1">v1</label>
@@ -68,7 +68,7 @@
 	@if (Model.ItemsCountOnView == 2)
 	{
 		<div>
-			<textarea id="ItemCompareInfo" name="ItemCompareInfo">@Model.ItemCompareInfo</textarea>
+			<textarea id="ItemCompareInfo" readonly>@Model.ItemCompareInfo</textarea>
 		</div>
 	}
 
@@ -117,7 +117,7 @@
 				@if (Model.ShowComponentsWithEnergyForAll)
 				{
 					<div>
-						<textarea id="ItemInfo1" name="ItemInfo1" class="personal">@Model.ItemInfo1</textarea>
+						<textarea id="ItemInfo1" class="personal" readonly>@Model.ItemInfo1</textarea>
 					</div>
 				}
 				@if (Model.ShowListOfComponentsForAll)
@@ -165,7 +165,7 @@
 					@if (Model.ShowComponentsWithEnergyForAll)
 					{
 						<div>
-							<textarea id="ItemInfo2" name="ItemInfo2" class="personal">@Model.ItemInfo2</textarea>
+							<textarea id="ItemInfo2" class="personal" readonly>@Model.ItemInfo2</textarea>
 						</div>
 					}
 					@if (Model.ShowListOfComponentsForAll)
