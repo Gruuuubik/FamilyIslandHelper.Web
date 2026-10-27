@@ -49,11 +49,19 @@ img:hover {
 }
 
 img.selectedImage {
-    border: solid grey;
+    outline: 3px solid #275EFE;
+    outline-offset: 2px;
+    border-radius: 6px;
 }
 
 .float-container {
     padding: 1px 5px 1px 5px;
+}
+
+.float-container::after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .float-child {
@@ -251,4 +259,12 @@ img.selectedImage {
 .buildingImageName,
 .itemNameImage {
     height: auto;
+    cursor: pointer;
+}
+
+@media (max-width: 767px) {
+    .float-child {
+        width: 100%;
+        float: none;
+    }
 }
