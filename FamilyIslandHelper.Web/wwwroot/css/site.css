@@ -58,11 +58,11 @@ img.selectedImage {
     padding: 1px 5px 1px 5px;
 }
 
-.float-container::after {
-    content: "";
-    display: table;
-    clear: both;
-}
+    .float-container::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
 
 .float-child {
     width: 50%;
