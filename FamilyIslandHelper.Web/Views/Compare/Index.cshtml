@@ -46,10 +46,6 @@
 			@Html.CheckBoxFor(m => m.ShowListOfComponentsForAll, new { @class = "switch" })
 			@Html.LabelFor(m => m.ShowListOfComponentsForAll)
 		</div>
-		<div class="checkbox-wrapper-14">
-			@Html.CheckBoxFor(m => m.ShowComponentsWithEnergyForAll, new { @class = "switch" })
-			@Html.LabelFor(m => m.ShowComponentsWithEnergyForAll)
-		</div>
 	</div>
 
 	<div class="float-container">
@@ -86,11 +82,9 @@
 					<input type="number" class="itemCount" id="ItemCount1" name="ItemCount1" min="1" max="20" value="@Model.ItemCount1" />
 				</div>
 				<h2 class="h5 mt-3">@Model.ResultTitle1</h2>
-				@if (Model.ShowComponentsWithEnergyForAll)
+				@if (Model.EnergyCost1.HasValue)
 				{
-					<div>
-						<textarea id="ItemInfo1" class="personal" readonly>@Model.ItemInfo1</textarea>
-					</div>
+					<p class="text-muted mb-2">Энергия: <strong>@Model.EnergyCost1</strong></p>
 				}
 				@if (Model.ShowListOfComponentsForAll)
 				{
@@ -137,11 +131,9 @@
 						<input type="number" class="itemCount" id="ItemCount2" name="ItemCount2" min="1" max="20" value="@Model.ItemCount2" />
 					</div>
 					<h2 class="h5 mt-3">@Model.ResultTitle2</h2>
-					@if (Model.ShowComponentsWithEnergyForAll)
+					@if (Model.EnergyCost2.HasValue)
 					{
-						<div>
-							<textarea id="ItemInfo2" class="personal" readonly>@Model.ItemInfo2</textarea>
-						</div>
+						<p class="text-muted mb-2">Энергия: <strong>@Model.EnergyCost2</strong></p>
 					}
 					@if (Model.ShowListOfComponentsForAll)
 					{

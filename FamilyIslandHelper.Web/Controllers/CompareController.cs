@@ -1,5 +1,6 @@
 ﻿using FamilyIslandHelper.Api;
 using FamilyIslandHelper.Api.Helpers;
+using FamilyIslandHelper.Api.Models.Abstract;
 using FamilyIslandHelper.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -54,14 +55,14 @@ namespace FamilyIslandHelper.Web.Controllers
 				BuildingsNames = buildingsNames,
 				BuildingName1 = buildingName1,
 				ShowListOfComponentsForAll = showListOfComponents,
-				ShowComponentsWithEnergyForAll = false,
 				Items1 = items1,
 				ItemName1 = itemName1,
 				ItemCount1 = itemCount,
-				ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, showListOfComponents, "componentsTree1"),
+				ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, itemCount, showListOfComponents, "componentsTree1"),
 				ItemCount2 = itemCount,
 				ApiVersion = apiVersion,
-				ItemsCountOnView = 1
+				ItemsCountOnView = 1,
+				EnergyCost1 = (item1 as ProducibleItem)?.ProduceEnergyCost * itemCount
 			};
 
 			FillDisplayNames(model);
@@ -107,14 +108,10 @@ namespace FamilyIslandHelper.Web.Controllers
 			}
 
 			var item1 = itemHelper.FindItemByName(compareViewModel.ItemName1);
-
-			if (compareViewModel.ShowComponentsWithEnergyForAll)
-			{
-				compareViewModel.ItemInfo1 = ItemInfoService.GetInfoAboutItem(item1, compareViewModel.ItemCount1, compareViewModel.ShowListOfComponentsForAll);
-			}
+			compareViewModel.EnergyCost1 = (item1 as ProducibleItem)?.ProduceEnergyCost * compareViewModel.ItemCount1;
 
 			compareViewModel.Items1 = items1;
-			compareViewModel.ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, compareViewModel.ShowListOfComponentsForAll, "componentsTree1");
+			compareViewModel.ComponentsTreeHtml1 = ItemInfoService.GetComponentsTree(apiVersion, item1, compareViewModel.ItemCount1, compareViewModel.ShowListOfComponentsForAll, "componentsTree1");
 
 			if (compareViewModel.ItemsCountOnView == 2)
 			{
@@ -131,14 +128,10 @@ namespace FamilyIslandHelper.Web.Controllers
 				}
 
 				var item2 = itemHelper.FindItemByName(compareViewModel.ItemName2);
-
-				if (compareViewModel.ShowComponentsWithEnergyForAll)
-				{
-					compareViewModel.ItemInfo2 = ItemInfoService.GetInfoAboutItem(item2, compareViewModel.ItemCount2, compareViewModel.ShowListOfComponentsForAll);
-				}
+				compareViewModel.EnergyCost2 = (item2 as ProducibleItem)?.ProduceEnergyCost * compareViewModel.ItemCount2;
 
 				compareViewModel.Items2 = items2;
-				compareViewModel.ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, compareViewModel.ShowListOfComponentsForAll, "componentsTree2");
+				compareViewModel.ComponentsTreeHtml2 = ItemInfoService.GetComponentsTree(apiVersion, item2, compareViewModel.ItemCount2, compareViewModel.ShowListOfComponentsForAll, "componentsTree2");
 
 				compareViewModel.ItemCompareInfo = ItemHelper.CompareItems(item1, compareViewModel.ItemCount1, item2, compareViewModel.ItemCount2);
 			}

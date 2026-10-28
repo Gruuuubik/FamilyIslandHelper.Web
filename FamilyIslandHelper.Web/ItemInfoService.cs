@@ -1,38 +1,19 @@
 ﻿using FamilyIslandHelper.Api;
 using FamilyIslandHelper.Api.Models.Abstract;
+using System.Net;
 using System.Text;
 
 namespace FamilyIslandHelper.Web
 {
 	public static class ItemInfoService
 	{
-		public static string GetInfoAboutItem(Item item, int itemCount, bool showListOfComponents)
-		{
-			var info = item.ToString(itemCount);
-
-			if (item is ProducibleItem producibleItem)
-			{
-				if (showListOfComponents)
-				{
-					info += "\n";
-					info += "Components:\n";
-
-					var componentsInfo = producibleItem.ComponentsInfo(0, itemCount);
-
-					info += string.Join("\n", componentsInfo);
-				}
-			}
-
-			return info;
-		}
-
-		public static string GetComponentsTree(ApiVersion apiVersion, Item item, bool showListOfComponents, string componentsTreeId)
+		public static string GetComponentsTree(ApiVersion apiVersion, Item item, int itemCount, bool showListOfComponents, string componentsTreeId)
 		{
 			var builder = new StringBuilder($@"<div class=""treeview"" id=""{componentsTreeId}"">");
 
 			if (showListOfComponents)
 			{
-				AddItemComponentsToHtml(apiVersion, builder, item);
+				AddItemComponentsToHtml(apiVersion, builder, item, itemCount);
 			}
 
 			builder.AppendLine("</div>");
@@ -40,42 +21,41 @@ namespace FamilyIslandHelper.Web
 			return builder.ToString();
 		}
 
-		public static void AddItemComponentsToHtml(ApiVersion apiVersion, StringBuilder builder, Item item)
+		public static void AddItemComponentsToHtml(ApiVersion apiVersion, StringBuilder builder, Item item, int multiplier)
 		{
 			if (item is ProducibleItem producibleItem)
 			{
 				builder.AppendLine("<ul>");
 
-				for (var i = 0; i < producibleItem.Components.Count; i++)
+				foreach (var (childItem, count) in producibleItem.Components)
 				{
-					var childComponent = producibleItem.Components[i];
-					var childItem = childComponent.item;
-
-					builder.AppendLine("	<li>");
-
+					var totalCount = count * multiplier;
 					var itemName = childItem.GetType().Name;
 					string apiToCall;
+					int unitEnergy;
 
 					if (childItem is ProducibleItem producibleChildItem)
 					{
 						var buildingName = producibleChildItem.BuildingToCreate.GetType().Name;
 
 						apiToCall = $"/resources/{apiVersion}/{buildingName}/{itemName}";
+						unitEnergy = producibleChildItem.ProduceEnergyCost;
 					}
 					else
 					{
 						apiToCall = $"/resources/{apiVersion}/res/{itemName}";
+						unitEnergy = (childItem as ResourceItem)?.EnergyCost ?? 0;
 					}
 
+					var displayName = WebUtility.HtmlEncode(childItem.Name);
+
+					builder.AppendLine("	<li>");
 					builder.AppendLine(@"<div class=""treeItem"">");
-
-					builder.AppendLine(@$"	<img id=""{itemName}"" width=""40"" src=""{apiToCall}"" alt=""{itemName}"" title=""{itemName}"">");
-
-					builder.AppendLine($"	<span>{childItem.Name}({childComponent.count})</span>");
-
+					builder.AppendLine(@$"	<img id=""{itemName}"" width=""40"" height=""40"" loading=""lazy"" src=""{apiToCall}"" alt=""{displayName}"" title=""{displayName}"">");
+					builder.AppendLine($"	<span>{displayName}: {totalCount} шт. · {unitEnergy * totalCount} энергии</span>");
 					builder.AppendLine("</div>");
 
-					AddItemComponentsToHtml(apiVersion, builder, childItem);
+					AddItemComponentsToHtml(apiVersion, builder, childItem, totalCount);
 
 					builder.AppendLine("	</li>");
 				}
