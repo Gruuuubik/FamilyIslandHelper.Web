@@ -11,9 +11,9 @@ Web Application for game [FamilyIsland](https://play.google.com/store/apps/detai
 
 ## Deployed web application
 
-https://gruuuubik.bsite.net/
+https://familyislandhelper.runasp.net/
 
-![Web Application](WebScreen1.png "Web Application")
+![Web Application](WebScreen.png "Web Application")
 
 
 ## Authors
