@@ -58,7 +58,24 @@ if (form) {
 		}
 	});
 
+	let stepTimer = null;
+
 	form.addEventListener('click', function (event) {
+		const stepButton = event.target.closest('.stepper-btn');
+
+		if (stepButton && form.contains(stepButton)) {
+			const input = document.getElementById(stepButton.dataset.target);
+			const min = Number(input.min) || 1;
+			const max = Number(input.max) || 20;
+			const current = parseInt(input.value, 10) || min;
+
+			input.value = Math.min(max, Math.max(min, current + Number(stepButton.dataset.step)));
+
+			clearTimeout(stepTimer);
+			stepTimer = setTimeout(refresh, 150);
+			return;
+		}
+
 		const treeItem = event.target.closest('.treeview div');
 
 		if (treeItem && form.contains(treeItem)) {
@@ -67,6 +84,13 @@ if (form) {
 			if (nextUl && nextUl.tagName === 'UL') {
 				nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
 			}
+		}
+	});
+
+	form.addEventListener('keydown', function (event) {
+		if (event.key === 'Enter' && event.target.matches('.itemCount')) {
+			event.preventDefault();
+			refresh();
 		}
 	});
 
