@@ -124,7 +124,11 @@ namespace FamilyIslandHelper.Web.Controllers
 
 				if (!items2.Contains(compareViewModel.ItemName2))
 				{
-					compareViewModel.ItemName2 = items2.FirstOrDefault();
+					// предмет по умолчанию: первый, не совпадающий с выбранным слева
+					compareViewModel.ItemName2 = items2.FirstOrDefault(i =>
+							compareViewModel.BuildingName2 != compareViewModel.BuildingName1
+							|| i != compareViewModel.ItemName1)
+						?? items2.FirstOrDefault();
 				}
 
 				var item2 = itemHelper.FindItemByName(compareViewModel.ItemName2);

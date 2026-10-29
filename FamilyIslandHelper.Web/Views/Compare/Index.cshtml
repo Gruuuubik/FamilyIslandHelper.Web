@@ -34,19 +34,17 @@
 		</div>
 	</div>
 
-	@if (Model.ItemsCountOnView == 2)
-	{
-		<div>
-			<textarea id="ItemCompareInfo" readonly>@Model.ItemCompareInfo</textarea>
-		</div>
-	}
-
 	<div id="CommonSettings" class="commonSettings">
 		<div class="checkbox-wrapper-14">
 			@Html.CheckBoxFor(m => m.ShowListOfComponentsForAll, new { @class = "switch" })
 			@Html.LabelFor(m => m.ShowListOfComponentsForAll)
 		</div>
 	</div>
+
+	@if (Model.ItemsCountOnView == 2 && !string.IsNullOrWhiteSpace(Model.ItemCompareInfo))
+	{
+		<div id="ItemCompareInfo" class="alert alert-secondary compare-result" role="status">@Model.ItemCompareInfo</div>
+	}
 
 	<div class="float-container">
 		<div class="float-child">

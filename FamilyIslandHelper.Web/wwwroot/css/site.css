@@ -39,6 +39,22 @@ div.commonSettings, div.component {
     margin: 5px 10px 5px 10px;
 }
 
+div.component {
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 16px;
+    background: #fff;
+}
+
+.float-child {
+    padding: 8px;
+}
+
+.compare-result {
+    white-space: pre-line;
+    margin: 0 10px 8px;
+}
+
 input.submit {
     margin: 0px 50px 0px 50px;
     width: 120px;
