@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
-        dotnet-version: [ '6.0.X' ]
+        dotnet-version: [ '10.0.X' ]
         configuration: [ Release ]
 
     name: Windows Build
@@ -43,7 +43,7 @@ jobs:
     #  uses: actions/upload-artifact@v4
     #  with:
     #    name: Screens from Selenium tests
-    #    path: '${{ github.workspace }}/FamilyIslandHelper.Web.Tests/bin/${{ matrix.configuration }}/net6.0/Screens'
+    #    path: '${{ github.workspace }}/FamilyIslandHelper.Web.Tests/bin/${{ matrix.configuration }}/net10.0/Screens'
     #    if-no-files-found: 'ignore'
 
     - name: 🛠️ Publish project
@@ -55,5 +55,5 @@ jobs:
       uses: actions/upload-artifact@v7
       with:
         name: published-site
-        path: ${{ github.workspace }}/FamilyIslandHelper.Web/bin/${{ matrix.configuration }}/net6.0/win-x64/publish
+        path: ${{ github.workspace }}/FamilyIslandHelper.Web/bin/${{ matrix.configuration }}/net10.0/win-x64/publish
         retention-days: 7
