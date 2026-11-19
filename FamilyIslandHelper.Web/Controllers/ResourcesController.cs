@@ -12,12 +12,10 @@ namespace FamilyIslandHelper.Web.Controllers
 
 		private static readonly Dictionary<ApiVersion, BuildingHelper> buildingHelperDictionary = new()
 		{
-			[ApiVersion.v1] = new BuildingHelper(ApiVersion.v1),
 			[ApiVersion.v2] = new BuildingHelper(ApiVersion.v2)
 		};
 		private static readonly Dictionary<ApiVersion, ItemHelper> itemHelperDictionary = new()
 		{
-			[ApiVersion.v1] = new ItemHelper(ApiVersion.v1),
 			[ApiVersion.v2] = new ItemHelper(ApiVersion.v2)
 		};
 
