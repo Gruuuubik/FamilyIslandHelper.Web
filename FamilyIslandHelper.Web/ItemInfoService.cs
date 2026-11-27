@@ -30,13 +30,13 @@ namespace FamilyIslandHelper.Web
 				foreach (var (childItem, count) in producibleItem.Components)
 				{
 					var totalCount = count * multiplier;
-					var itemName = childItem.GetType().Name;
+					var itemName = childItem.Id;
 					string apiToCall;
 					int unitEnergy;
 
 					if (childItem is ProducibleItem producibleChildItem)
 					{
-						var buildingName = producibleChildItem.BuildingToCreate.GetType().Name;
+						var buildingName = producibleChildItem.BuildingToCreate.Id;
 
 						apiToCall = $"/resources/{apiVersion}/{buildingName}/{itemName}";
 						unitEnergy = producibleChildItem.ProduceEnergyCost;

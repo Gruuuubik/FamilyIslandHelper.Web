@@ -165,7 +165,7 @@ namespace FamilyIslandHelper.Web.Controllers
 
 				foreach (var item in buildingHelper.CreateBuilding(buildingName).Items)
 				{
-					model.DisplayNames[item.GetType().Name] = item.Name;
+					model.DisplayNames[item.Id] = item.Name;
 				}
 			}
 		}
